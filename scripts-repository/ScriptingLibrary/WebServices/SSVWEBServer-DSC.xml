@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SOA The Next Generation 
+	Desired State Configuration (DSC) hybrid. All DSC-ized functionality has been put into DSC
+	tokenized with @@@ -->
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <!-- Are we installing a self signed cert? -->
+    <File Name="makecert.exe" PathFromBinRoot="DML\Microsoft\SDK\Makecert 6.2\makecert.exe" Action="Add"></File>
+  </Bindependency>
+ <!-- add DSC --> 
+  <DSC MOF="\\10.13.0.206\scratch\DML\Microsoft\Powershell\MOF\SSVWEBServer\localhost.mof"/>
+ <!-- --> 
+  <MSDTC>
+    <NetworkDTC Action="Enabled" />
+    <XATransaction Action="Enabled" />
+    <SNALU62Trans Action="Enabled" />
+    <RemoteClients Action="Enabled" />
+    <RemoteAdmin Action="Enabled" />
+    <AllowInboundCom Action="Enabled" />
+    <AllowOutboundCom Action="Enabled" />
+    <MutualAuthReq Action="Ignore" />
+    <IncomingAuthReq Action="Ignore" />
+    <NoAuthReq Action="Enabled" />
+    <RestartAfterConf Action="Enabled" />
+  </MSDTC>
+  <ServiceConfig>
+   <!-- leaving the tokenizeable user/pass for now until we get token functionality in DSC -->
+   	<Service Name="NetMsmqActivator" StartMode="Automatic" User="True">
+      <Auth User="@@@NMAusername@@@" Password="@@@NMApassword@@@" />
+	</Service>
+	<ServicePerm Action="Remove" Name="Classic .NET AppPool" />
+	<ServicePerm Action="Remove" Name="DefaultAppPool" />
+	<ServicePerm Action="Remove" Name="ASP.NET v4.0" />
+ </ServiceConfig>
+ <!-- no offical support of IIS config in DSC as of this version
+ DSC IIS support https://gallery.technet.microsoft.com/scriptcenter/xWebAdministration-Module-3c8bb6be
+ -->
+ <IIS>
+    <WWWROOT>D:\WWWROOT</WWWROOT>
+    <CreateFolderStr>
+      <DIR>Default</DIR>
+    </CreateFolderStr>
+    <ManageAppPool>
+      <Pool Action="Add" NAME="ASP.NET v4.0" NETVer="v4.0" IDType="ApplicationPoolIdentity" />
+    </ManageAppPool>
+    <SSL>
+      <Cert Action="Add" Name="Default" />
+	  <!-- additional "Copy" actions assume the certificate is checked into TFS in the tmp directory, e.g.
+	  $/Enterprise/Enterprise/Systems/Scripts/Powershell/tmp
+	  Note: this directory will be removed after execution
+	  -->
+    </SSL>
+    <Websites>
+	  <Site Action="Delete" SiteName="Default Web Site" > </Site> 
+      <Site Action="Add" SiteName="Default" PhysPath="Default" AppPool="ASP.NET v4.0" SSL="" SSLIP="" SSLPort="443" SSLCERTName="Default">
+        <Binding action="Add" type="http" address="*" port="80" hostname="" />
+        <Binding action="Add" type="https" address="*" port="443" hostname="" />
+        <Binding action="Add" type="net.msmq" address="" port="" hostname="" BindingInfo="@@@MSMQBind@@@" />
+        <Binding action="Add" type="net.pipe" address="" port="" hostname="" BindingInfo="*" />
+        <Binding action="Add" type="net.tcp" address="" port="" hostname="" BindingInfo="808:*" />
+      </Site>
+    </Websites>
+ </IIS>
+ <MSMQQueue>
+	 <!-- add SCM release admins rights -->
+     <!--<PermAdjust Queue="" Public="" User="" ACE="" Right="" />-->
+    <AllQueues>
+      <Permissions>
+        <Perm User="BRIDGEPOINT\SCM_Release_Admins" ACE="Allow" Right="FullControl" />
+		<Perm User="BRIDGEPOINT\svc_udeploy" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </AllQueues>
+	<!-- msmq queue manager perms: http://technet.microsoft.com/en-us/library/dn391737.aspx -->
+    <System>
+	  <Permissions>
+      <Perm User="@@@msmqSecurityGroup@@@" ACE="Allow" Right="ReceiveDeadLetter" />
+      <Perm User="@@@msmqSecurityGroup@@@" ACE="Allow" Right="PeekDeadLetter" />
+	  </Permissions>
+    </System>
+ </MSMQQueue>
+
+</params>

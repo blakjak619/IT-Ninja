@@ -1,0 +1,4 @@
+EnvCode = default
+F5_user = svc_prodf5udeploy
+f5_pass = @LOOKUPPWD(svc_prodf5udeploy)
+DML = \\\\10.13.0.206\\scratch

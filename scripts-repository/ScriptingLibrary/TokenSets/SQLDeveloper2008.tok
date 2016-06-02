@@ -1,0 +1,11 @@
+AddlFeatures =
+AgentStartup = Automatic
+AGTSVCACCOUNT = BRIDGEPOINT\\sql_agent_dev
+AGTSVCPASSWORD = !EasternCity15
+SAPWD = OwSZHWEIC5rIle6tZLKi!
+SQL_EDITION = DeveloperEdition2008
+SQLServerStartMode = Delayed-Auto
+SQLServiceStartup = Automatic
+SQLSVCACCOUNT = BRIDGEPOINT\\sql_server_dev
+SQLSVCPASSWORD = #BlackForrest72
+SQLPRODUCTID = MC46H-JQR3C-2JRHY-XYRKY-QWPVM

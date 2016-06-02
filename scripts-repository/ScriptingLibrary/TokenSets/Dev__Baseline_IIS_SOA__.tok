@@ -1,0 +1,11 @@
+TaskSchedulepassword = @LOOKUPPWD(svc_udeploy)
+TaskScheduleusername = bridgepoint\\svc_udeploy
+xmlDir = WebServices
+MSMQBind = vdme1soamsq01
+NMApassword = @LOOKUPPWD(dev_svc_msmqAdapter)
+NMAusername = bridgepoint\\dev_svc_msmqAdapter
+ProspectCertificate = nonprod.empyrawebservice.pfx
+empyrawebcert_password = PLACHOLDER
+msmqSecurityGroup = bridgepoint\\DEV_MSMQ_FULL_SG
+sitePort = 80
+siteRoot = Default

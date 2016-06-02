@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+<!-- Windows Server 2012, SQL Server 2012 -->
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <LocalRights Action="Add" User="bridgepoint\sql_server" Right="SeLockMemoryPrivilege" />
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2012\@@@SQL_EDITION@@@" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2012\Updates" />
+  </Bindependency>
+  <Volume>
+    <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+  <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+  <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="I:" />
+	<Part Action="Relocate" Label="Disk2" CurrentLetter="" NewLetter="J:" />
+	<Part Action="Relocate" Label="Disk3" CurrentLetter="" NewLetter="K:" />
+	<DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+      <Alignment>1024</Alignment>
+      <BlockSize>64k</BlockSize>
+    </DirectAttached>
+  </Volume>
+   <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="I:\SQLServer\Backup" />
+		<Item Action="Add" Path="I:\SQLServer\Data" />
+		<Item Action="Add" Path="J:\SQLServer\Log" />
+		<Item Action="Add" Path="K:\SQLServer\TempDB" />
+	 </Folders>
+     <PermInheritance>
+		<Object Target="I:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="J:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="K:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\Backup" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\Data" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="J:\SQLServer\Log" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="K:\SQLServer\TempDB" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+  </Filesystem>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>Net-Framework-Features</feature>
+    </includeallSubFeature>
+  </ServerManager>
+</params>

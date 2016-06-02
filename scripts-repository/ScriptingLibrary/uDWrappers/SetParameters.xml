@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<parameters>
+
+  <!-- 
+******************************
+Service: @@@appName@@@
+Env: ALL
+****************************** 
+-->
+
+	<setParameter name="IIS Web Application Name" value="@@@siteRoot@@@/@@@appName@@@" /> 
+	<setParameter name="Logging-Web.config Connection String" value="Data Source=@@@sqlserver@@@;Initial Catalog=Logging;Integrated Security=True" providerName="System.Data.SqlClient" /> 
+	<parameter name="AuthorizationGroup" description="" defaultValue="Everyone" tags="">
+		<parameterEntry kind="XmlFile" scope="\\web.config$" match="/configuration/appSettings/add[@key='@@@appName@@@.MethodName']/@value" /> 
+	</parameter>
+
+
+</parameters>

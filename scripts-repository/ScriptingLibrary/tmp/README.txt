@@ -1,0 +1,1 @@
+This is the "tmp" folder that is required for STIG-ServerStandup.ps1 to store temporary files (binaries, etc.) from DML.

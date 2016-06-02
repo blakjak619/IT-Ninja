@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+  <Volume>
+      <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:" />
+	  <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+  </Volume>
+    <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="D:\Logs" />
+	 </Folders>
+     <PermInheritance>
+		<Object Target="D:\Logs" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+  </Filesystem>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="dotNetFx40_Full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.0\dotNetFx40_Full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+    <File Name="dotnetfx45_full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.5\dotnetfx45_full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+  </Bindependency>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>NET-Framework</feature>
+      <feature>MSMQ</feature>
+    </includeallSubFeature>
+  </ServerManager>
+  <MSDTC>
+    <!--Action="Enabled" | "Disabled" | "Ignore"-->
+    <NetworkDTC Action="Enabled" />
+    <XATransaction Action="Enabled" />
+    <SNALU62Trans Action="Enabled" />
+    <RemoteClients Action="Enabled" />
+    <RemoteAdmin Action="Enabled" />
+    <AllowInboundCom Action="Enabled" />
+    <AllowOutboundCom Action="Enabled" />
+    <MutualAuthReq Action="Ignore" />
+    <IncomingAuthReq Action="Ignore" />
+    <NoAuthReq Action="Enabled" />
+    <RestartAfterConf Action="Enabled" />
+  </MSDTC>
+  <ServiceConfig>
+    <Service Name="MSMQ" StartMode="Automatic" User="" />
+    <Service Name="MSDTC" StartMode="Automatic" User="" />
+  </ServiceConfig>
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\MSMQ\Parameters\security" Name="AllowNonauthenticatedRpc" Value="1" type="DWORD" />
+    <Subkey Action="Add" Key="HKLM:\System\CurrentControlSet\services\NetMsmqActivator" Name="ServiceSidType" Value="1" type="DWORD" />
+  </Reg>
+</params>

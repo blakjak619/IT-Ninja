@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Baseline IIS server standup configs 
+     tokenized with @@@ for uDeploy -->
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+  <Volume>
+      <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+	  <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+  </Volume>
+  
+   <Filesystem>
+	  <Folders>
+		  <Item Action="Add" Path="D:\Logs" />
+	  </Folders>
+    <PermInheritance>
+		  <Object Target="D:\Logs" AllowInheritance="True" PreserveInheritance="True" />
+    </PermInheritance>
+  </Filesystem>
+  
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="dotNetFx40_Full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.0\dotNetFx40_Full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+    
+    <File Name="dotnetfx45_full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.5\dotnetfx45_full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+    
+    <File Name="WebDeploy_amd64_en-US.msi" PathFromBinRoot="DML\Microsoft\Webdeploy\V3.0\WebDeploy_amd64_en-US.msi" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/l WebDeployInstallLog.txt</Argument>
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>ADDLOCAL=MSDeployFeature,MSDeployAgentFeature,MSDeployUIFeature,DelegationUIFeature,MSDeployWMSVCHandlerFeature</Argument>
+	  <CheckInstallPath>C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe</CheckInstallPath>
+    </File>
+    
+    <File Name="Octopus.Tentacle.1.3.0.1535.msi" PathFromBinRoot="DML\Octopus\Octopus.Tentacle.1.3.0.1535.msi" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>INSTALLLOCATION="C:\Octopus Tentacle"</Argument>
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>/log "C:\Temp\OctopusStatus.log"</Argument>
+    </File>
+
+  </Bindependency>
+
+- <IIS>
+    <RegDOTNETIIS>True</RegDOTNETIIS>
+  </IIS>
+
+  <WindowsFirewall>
+    <Form Profile="DomainProfile"  State="Disable"  />
+    <Form Profile="Privateprofile" state="Disable" />
+    <Form Profile="Publicprofile"  state="Disable" />
+  </WindowsFirewall>
+
+  <ServerManager>
+    <includeAllSubFeature>
+      <feature>Web-Security</feature>
+      <feature>Web-Performance</feature>
+      <feature>WAS</feature>
+      <feature>SNMP-Services</feature>
+    </includeAllSubFeature>
+    <Single>
+      <feature>Web-Static-Content</feature>
+      <feature>Web-Default-Doc</feature>
+      <feature>Web-Dir-Browsing</feature>
+      <feature>Web-Http-Errors</feature>
+      <feature>Web-Asp-Net</feature>
+      <feature>Web-Net-Ext</feature>
+      <feature>Web-ISAPI-Ext</feature>
+      <feature>Web-ISAPI-Filter</feature>
+      <feature>Web-Http-Logging</feature>
+      <feature>Web-Log-Libraries</feature>
+      <feature>Web-Request-Monitor</feature>
+      <feature>Web-Http-Tracing</feature>
+      <feature>Web-Mgmt-Console</feature>
+      <feature>Web-Scripting-Tools</feature>
+      <feature>Web-Mgmt-Service</feature>
+      <feature>NET-Framework-Core</feature>
+      <feature>MSMQ-Server</feature>
+      <feature>RSAT-Web-Server</feature>
+      <feature>Telnet-Client</feature>
+      <feature>PowerShell-ISE</feature>
+    </Single>
+  </ServerManager>
+  
+  <ServiceConfig>
+    <Service Name="MSMQ" StartMode="Automatic" User="" />
+  </ServiceConfig>
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\MSMQ\Parameters\security" Name="AllowNonauthenticatedRpc" Value="1" type="DWORD" />
+    <Subkey Action="Add" Key="HKLM:\System\CurrentControlSet\services\NetMsmqActivator" Name="ServiceSidType" Value="1" type="DWORD" />
+  </Reg>
+</params>

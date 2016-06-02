@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+	<!-- webdeploy v3 -->
+	<File Name="WebDeploy_x86_en-US.msi" PathFromBinRoot="DML\Microsoft\Webdeploy\V3.0\WebDeploy_x86_en-US.msi" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/l WebDeployInstallLog.txt</Argument>
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>ADDLOCAL=MSDeployFeature,MSDeployAgentFeature,MSDeployUIFeature,DelegationUIFeature,MSDeployWMSVCHandlerFeature</Argument>
+	  <CheckInstallPath>C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe</CheckInstallPath>
+    </File>
+  </Bindependency>
+ 
+</params>

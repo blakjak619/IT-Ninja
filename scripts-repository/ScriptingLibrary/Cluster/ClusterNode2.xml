@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+
+  <!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+  <Volume>
+    <Part Action="Relocate" Label="Disk5" NewLetter="K:" />
+    <Part Action="Relocate" Label="Disk4" NewLetter="J:" />
+    <Part Action="Relocate" Label="Disk3" NewLetter="I:" />
+    <Part Action="Relocate" Label="Disk2" NewLetter="Q:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+    <iSCSI>
+      <Portal Address="@@@SCSIPortalAddress@@@"><!-- 10.12.20.217 --></Portal>
+    </iSCSI>
+  </Volume>
+
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>Failover-Clustering</feature>
+      <feature>RSAT-Clustering</feature>
+    </includeallSubFeature>
+  </ServerManager>
+
+  <!-- 
+  <FailoverClustering>
+    <Cluster Name="@@@ClusterName@@@" ClusterIP="@@@ClusterIP@@@" />
+  </FailoverClustering>
+  -->
+</params>

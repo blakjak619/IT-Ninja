@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="dotnetfx45_full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.5\dotnetfx45_full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+  </Bindependency>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>NET-Framework</feature>
+      <feature>MSMQ</feature>
+    </includeallSubFeature>
+  </ServerManager>
+  <MSDTC>
+    <!--Action="Enabled" | "Disabled" | "Ignore"-->
+    <NetworkDTC Action="Enabled" />
+    <XATransaction Action="Enabled" />
+    <SNALU62Trans Action="Enabled" />
+    <RemoteClients Action="Enabled" />
+    <RemoteAdmin Action="Enabled" />
+    <AllowInboundCom Action="Enabled" />
+    <AllowOutboundCom Action="Enabled" />
+    <MutualAuthReq Action="Ignore" />
+    <IncomingAuthReq Action="Ignore" />
+    <NoAuthReq Action="Enabled" />
+    <RestartAfterConf Action="Enabled" />
+  </MSDTC>
+  <MSMQQueue>
+    <Queue Action="Add" Name="QueueA" Public="" Transactional="true" Authenticated="" EncryptionReq="" EnableJournal="true">
+      <MaxJournalSizeKB></MaxJournalSizeKB>
+      <MaxQueueSizeKB />
+      <Permissions>
+        <Perm Queue="" Public="" User="BRIDGEPOINT\sstewart" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </Queue>
+    <Queue Action="Add" Name="Queue3" Public="" Transactional="true" Authenticated="" EncryptionReq="Body" EnableJournal="">
+      <MaxJournalSizeKB></MaxJournalSizeKB>
+      <MaxQueueSizeKB>10000</MaxQueueSizeKB>
+    </Queue>
+    <AllQueues>
+      <Permissions>
+        <Perm User="Bridgepoint\FLopez" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </AllQueues>
+  </MSMQQueue>
+  <Volume>
+    <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:" />
+    <Part Action="MoveFirst" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+  </Volume>
+  <EVLogs>
+    <Log Action="Add" LogName="SlyWApp2" EventSource="SlyWApp2" Path="D:\Logfiles\SlyWApp2.evtx" />
+  </EVLogs>
+  <Filesystem>
+    <Permissions>
+      <Perm Action="Add" User="BRIDGEPOINT\sstewart" Target="D:\LogFiles" Right="CreateFiles" Propagation="None" Ace="Allow" />
+    </Permissions>
+    <Folders>
+      <Item Action="Add" Path="D:\LogFiles" />
+    </Folders>
+  </Filesystem>
+  <WindowsFirewall>
+    <Form State="Disable" Profile="allprofiles" />
+  </WindowsFirewall>
+</params>

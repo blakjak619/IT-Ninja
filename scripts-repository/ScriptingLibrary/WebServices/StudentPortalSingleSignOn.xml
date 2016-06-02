@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SOA The Next Generation 
+	WebProxy IIS for internal DMZ-->
+
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <Folder Action="Add" AbsolutePath="d:\CampusPortal\CMCPortal\SingleSignOn\bin" ReqDestination="d:\CampusPortal\CMCPortal\bin" Filter="*" />
+  </Bindependency>
+ <IIS>
+    <Websites>
+	  <Site Action="Delete" SiteName="\Sites\CMCPortal\SingleSignOn" DeletePhysical="False"  > </Site> 
+    </Websites>
+ </IIS>
+</params>

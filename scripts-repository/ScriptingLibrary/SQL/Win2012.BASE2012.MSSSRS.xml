@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+<!-- Windows Server 2012, SQL Server 2012 -->
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <EnvVars>
+    <Var Action="Add" Variable="Path" Value="D:\Program Files\Microsoft SQL Server\110\Tools\Binn" Target="Machine" />
+  </EnvVars>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2012\@@@SQL_EDITION@@@" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2012\Updates" />
+  </Bindependency>
+<Volume>
+      <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+      <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+     <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+      <Alignment>1024</Alignment>
+      <BlockSize>64k</BlockSize>
+    </DirectAttached>
+</Volume>
+   <Filesystem>
+	 <Folders>
+	 </Folders>
+     <PermInheritance>
+     </PermInheritance>
+  </Filesystem>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>Net-Framework-Features</feature>
+    </includeallSubFeature>
+  </ServerManager>
+  <MSSQL>
+    <Install>
+      <ININame>INIFiles\SSRS_@@@SQL_EDITION@@@.ini</ININame>
+      <EXEName>setup.exe</EXEName>
+      <Argument>/IAcceptSQLServerLicenseTerms</Argument>
+      <Argument>/Q</Argument>
+      <Argument>/UpdateEnabled=True</Argument>
+      <Argument>/UpdateSource=UpdateSource</Argument>
+	  <Argument>/PID="@@@SQLPRODUCTID@@@"</Argument>
+      <Argument>/RSSVCPASSWORD="@@@RSSVCPASSWORD@@@"</Argument>
+      <LocalFolderName>SQLExtractedFiles</LocalFolderName>
+    </Install>
+    <PostInstall>
+      <Script Cmd="sqlcmd -U sa -P @@@SAPWD@@@ -i " Path="/tmp/StandupScripts/common/*.sql" />
+      <Script Cmd="sqlcmd -U sa -P @@@SAPWD@@@ -i " Path="/tmp/StandupScripts/@@@SQLEnv@@@/*.sql" />
+    </PostInstall>
+  </MSSQL>
+</params>

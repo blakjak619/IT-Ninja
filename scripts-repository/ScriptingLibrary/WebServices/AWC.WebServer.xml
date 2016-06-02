@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Defines Ashford Writing Center AWC -->
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="D:\Logs" />
+	 </Folders>
+     <PermInheritance>
+		<Object Target="D:\Logs" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+  </Filesystem>
+     <IIS>
+		<WWWROOT>D:\WWWROOT</WWWROOT>
+		<RegDOTNETIIS>True</RegDOTNETIIS>
+		<CreateFolderStr>
+		  <DIR>AshfordWritingCenter</DIR>
+		</CreateFolderStr>
+		<ManageAppPool>
+		  <Pool Action="Add" NAME="AshfordWritingCenter" NETVer="v4.0" IDType="ApplicationPoolIdentity">
+		  </Pool>
+	     </ManageAppPool>
+		<Websites>
+		  <Site Action="Delete" SiteName="Default Web Site" > </Site>
+		  <Site Action="Add" SiteName="awc.ashford.edu" PhysPath="AshfordWritingCenter" AppPool="AshfordWritingCenter" SSL="" SSLIP="" SSLPort="" SSLCERTName="">
+			<Binding action="Add" type="http" address="*" port="80" hostname="" />
+		  </Site>
+	    </Websites>
+	  </IIS>
+</params>

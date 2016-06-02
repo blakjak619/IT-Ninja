@@ -1,0 +1,19 @@
+EXECUTE AS LOGIN = 'sa'
+
+IF EXISTS ( SELECT  *
+            FROM    sys.endpoints AS e
+            WHERE   e.name = 'Hadr_endpoint' )
+    BEGIN
+        DROP ENDPOINT [Hadr_endpoint]
+    END
+GO
+
+CREATE ENDPOINT [Hadr_endpoint] 
+	STATE=STARTED
+	AS TCP (LISTENER_PORT = 5022, LISTENER_IP = ALL)
+	FOR DATA_MIRRORING (ROLE = ALL, AUTHENTICATION = WINDOWS NEGOTIATE
+, ENCRYPTION = REQUIRED ALGORITHM AES)
+GO
+
+
+REVERT

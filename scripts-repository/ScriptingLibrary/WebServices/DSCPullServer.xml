@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Baseline IIS server standup configs 
+     tokenized with @@@ for uDeploy -->
+<params Version="1.9">
+	<Folders>
+		<!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+		<Includes>Includes</Includes>
+		<Temp>tmp</Temp>
+	</Folders>
+	
+	<!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+	<Volume>
+		<CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+		<Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+		<DirectAttached>
+			<FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+		</DirectAttached>
+	</Volume>
+	
+	<Filesystem>
+		<Folders>
+			<Item Action="Add" Path="D:\Logs" />
+      <Item Action="Add" Path="D:\inetpub\wwwroot\PSDSCPullServer\bin" />
+		</Folders>
+    <File Action="Copy" Source="C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSDesiredStateConfiguration\PullServer\global.asax" Destination="d:\inetpub\wwwroot\PSDSCPullServer\global.asax" />
+    <File Action="Copy" Source="C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSDesiredStateConfiguration\PullServer\PSDSCPullServer.mof" Destination="d:\inetpub\wwwroot\PSDSCPullServer\PSDSCPullServer.mof" />
+    <File Action="Copy" Source="C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSDesiredStateConfiguration\PullServer\PSDSCPullServer.svc" Destination="d:\inetpub\wwwroot\PSDSCPullServer\PSDSCPullServer.svc" />
+    <File Action="Copy" Source="C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSDesiredStateConfiguration\PullServer\PSDSCPullServer.xml" Destination="d:\inetpub\wwwroot\PSDSCPullServer\PSDSCPullServer.xml" />
+    <File Action="Copy" Source="C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSDesiredStateConfiguration\PullServer\PSDSCPullServer.config" Destination="d:\inetpub\wwwroot\PSDSCPullServer\web.config" />
+    <File Action="Copy" Source="C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSDesiredStateConfiguration\PullServer\Microsoft.Powershell.DesiredStateConfiguration.Service.dll" Destination="d:\inetpub\wwwroot\PSDSCPullServer\bin\Microsoft.Powershell.DesiredStateConfiguration.Services.dll" />
+  </Filesystem>
+	
+	<ServerManager>
+		<single>
+			<feature>Dsc-Service</feature> <!-- Installs IIS -->
+		</single>
+	</ServerManager>
+	
+	<IIS>
+		<WWWROOT>D:\inetpub\WWWROOT</WWWROOT>
+		<ManageAppPool>
+			<Pool Action="Add" NAME="DSCService" NETVer="v4.0" IDType="LocalSystem" />
+		</ManageAppPool>
+		<Websites>
+			<Site Action="Delete" SiteName="Default Web Site" > </Site>
+			<Site Action="Add" SiteName="DSC" PhysPath="PSDSCPullServer" AppPool="DSCService" SSL="" SSLIP="" SSLPort="" SSLCERTName="">
+				<Binding action="Add" type="http" address="*" port="80" hostname="" />
+			</Site>
+		</Websites>
+	</IIS>
+</params>

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Baseline IIS server standup configs 
+     tokenized with @@@ for uDeploy -->
+<params Version="1.9">
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" LogLevel="TRACE"/>
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+  <Volume>
+      <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+	  <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+  </Volume>
+    <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="D:\Logs" />
+		<Item Action="Add" Path="D:\WWWROOT" />
+		<Item Action="Add" Path="D:\WWWROOT\Talon" />
+		<Item Action="Add" Path="D:\WWWROOT\Talon\TalonService" />
+	 </Folders>
+     <PermInheritance>
+		<Object Target="D:\Logs" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="D:\WWWROOT" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+	 <Permissions>
+      <Perm Action="Add" User="IIS_IUSRS" Target="D:\WWWROOT" Right="ListDirectory" Propagation="InheritOnly" Ace="Allow" />
+      <Perm Action="Add" User="IIS_IUSRS" Target="D:\WWWROOT" Right="Read" Propagation="InheritOnly" Ace="Allow" />
+      <Perm Action="Add" User="IIS_IUSRS" Target="D:\WWWROOT" Right="ReadAndExecute" Propagation="InheritOnly" Ace="Allow" />
+      <Perm Action="Add" User="Network Service" Target="D:\WWWROOT\Talon" Right="ListDirectory" Propagation="InheritOnly" Ace="Allow" />
+      <Perm Action="Add" User="Network Service" Target="D:\WWWROOT\Talon" Right="Read" Propagation="InheritOnly" Ace="Allow" />
+      <Perm Action="Add" User="Network Service" Target="D:\WWWROOT\Talon" Right="ReadAndExecute" Propagation="InheritOnly" Ace="Allow" />
+	    <Perm Action="Add" User="Bridgepoint\svc_talon" Target="D:\WWWROOT\Talon\TalonService" Right="ListDirectory" Propagation="InheritOnly" Ace="Allow" />
+      <Perm Action="Add" User="Bridgepoint\svc_talon" Target="D:\WWWROOT\Talon\TalonService" Right="Read" Propagation="InheritOnly" Ace="Allow" />
+      <Perm Action="Add" User="Bridgepoint\svc_talon" Target="D:\WWWROOT\Talon\TalonService" Right="ReadAndExecute" Propagation="InheritOnly" Ace="Allow" />
+    </Permissions>
+  </Filesystem>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="dotNetFx40_Full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.0\dotNetFx40_Full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+    <File Name="Octopus.Tentacle.1.3.0.1535.msi" PathFromBinRoot="DML\Octopus\Octopus.Tentacle.1.3.0.1535.msi" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>INSTALLLOCATION="C:\Octopus Tentacle"</Argument>
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>/log "C:\Temp\OctopusStatus.log"</Argument>
+    </File>
+  </Bindependency>
+  <IIS>
+    <Config>
+      <Setting Action="Set" Element="Add" Address="*" maxConnection="100" />
+      <Setting Action="Set" Element="processModel" maxWorkerThreads="100" maxIoThreads="100" />
+      <Setting Action="Set" Element="httpRuntime" minFreeThreads="704" minLocalRequestFreeThreads="608" />
+    </Config>
+  </IIS>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>web-Server</feature>
+      <feature>WAS</feature>
+	  <feature>NET-Framework</feature>
+	</includeallSubFeature>
+  </ServerManager>
+  <ServiceConfig>
+    <Service Name="WAS" StartMode="Automatic" User="" />
+    <Service Name="MSDTC" StartMode="Automatic" User="" />
+	  <Service Name="W3SVC" StartMode="Automatic" User="" />
+ </ServiceConfig>
+  <AppConfig>
+    <Octopus>
+      <Config Action="Add" AgentFolder="c:\Octopus Tentacle\agent" AppDir="C:\Octopus\Applications" Port="10933" TrustKey="8343CEC45768BC365ED632A73CB2E99328637EC3" TempCertDir="C:\temp" />
+    </Octopus>
+  </AppConfig>
+</params>

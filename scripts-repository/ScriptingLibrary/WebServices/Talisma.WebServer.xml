@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Baseline IIS server standup configs 
+     tokenized with @@@ for uDeploy -->
+<params Version="1.9">
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" LogLevel="TRACE"/>
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+  <Volume>
+      <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+	  <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+  </Volume>
+    <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="D:\Logs" />
+	 </Folders>
+     <PermInheritance>
+		<Object Target="D:\Logs" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+  </Filesystem>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\Office2007Ent" />
+    <File Name="OfficeSetup.exe" Action="Add" PathFromBinRoot="DML\Microsoft\Office2007Ent\setup.exe" >
+      <Argument>/adminfile ..\Talisma\TalismaOfficeSetup.MSP</Argument>
+    </File>
+    <!-- Note that the SDK.exe's won't install on Win2012 -->
+    <File Name="Net2SDK.exe" Action="Execute" PathFromBinRoot="DML\Talisma\Talisma.Source\Talisma 8.6\8.6 Final\Prerequisites\Dot Net Framework 2.0\SDK\setup.exe" ProductIsInstalled="gwmi Win32_Product | ? {$_.name -like &quot;*NET Framework 2.0 SDK - ENU*&quot;}" RetryMax="5">
+      <Argument>/q:a /c:"install.exe /q"</Argument>
+    </File>
+    <File Name="Net2SDK64.exe" Action="Execute" PathFromBinRoot="DML\Talisma\Talisma.Source\Talisma 8.6\8.6 Final\Prerequisites\Dot Net Framework 2.0\SDK_x64\setup.exe" ProductIsInstalled="gwmi Win32_Product | ? {$_.name -like &quot;*NET Framework 2.0 SDK*(x64)*&quot;}" RetryMax="5">
+      <Argument>/q:a /c:"install.exe /q"</Argument>
+    </File>
+    <File Name="vcredist_x86.exe" Action="Execute" PathFromBinRoot="DML\Talisma\Talisma.Source\8.6 Final\Prerequisites\VC8 Redistributable\VC++ 2005 Sp1 Redist (x86)\vcredist_x86.exe" ProductIsInstalled="gwmi Win32_Product | ? {$_.name -like &quot;*Microsoft Visual C++ 2005 Redistributable$*&quot;}" RetryMax="1">
+      <Argument>/q</Argument>
+    </File>
+    <File Name="vcredist_x64.exe" Action="Execute" PathFromBinRoot="DML\Talisma\Talisma.Source\8.6 Final\Prerequisites\VC8 Redistributable\VC++ 2005 Sp1 Redist (x64)\vcredist_x64.exe" ProductIsInstalled="gwmi Win32_Product | ? {$_.name -like &quot;*Microsoft Visual C++ 2005 Redistributable (x64)*&quot;}" RetryMax="1">
+      <Argument>/q</Argument>
+    </File>
+    <File Name="MicrosoftWSE3.0.msi" Action="Add" PathFromBinRoot="DML\Talisma\Talisma.Source\8.6 Final\Prerequisites\WSE 3.0\MicrosoftWSE3.0.msi" >
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>/passive</Argument>
+    </File>
+    <File Name="EnterpriseLibraryMay2007.msi" Action="Add" PathFromBinRoot="DML\Talisma\Talisma.Source\8.6 Final\Prerequisites\WSE 3.0\Enterprise Library May 2007.msi" >
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>/q/n</Argument>
+    </File>
+  </Bindependency>
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" Name="EnableLUA" Type="DWORD" Value="0" />
+  </Reg>
+  <ServerManager>
+    <Single>
+      <Feature>AS-Ent-Services</Feature>
+      <Feature>Telnet-Client</Feature>
+      <feature>web-WebServer</feature>
+      <Feature>Web-Common-Http</Feature>
+      <Feature>Web-Static-Content</Feature>
+      <Feature>Web-Default-Doc</Feature>
+      <Feature>Web-Dir-Browsing</Feature>
+      <Feature>Web-Http-Errors</Feature>
+      <Feature>Web-Http-Redirect</Feature>
+      <feature>Web-App-Development</feature>
+      <feature>Web-Asp-Net</feature>
+      <feature>Web-Net-Ext</feature>
+      <feature>Web-ASP</feature>
+      <feature>Web-ISAPI-Ext</feature>
+      <feature>Web-ISAPI-Filter</feature>
+      <feature>Web-Health</feature>
+      <feature>Web-Http-Logging</feature>
+      <feature>Web-Log-Libraries</feature>
+      <feature>Web-Request-Monitor</feature>
+      <feature>Web-Http-Tracing</feature>
+    </Single>
+    <includeallSubFeature>
+      <feature>Web-Security</feature>
+      <feature>Web-Performance</feature>
+      <feature>Web-Mgmt-Tools</feature>
+      <feature>WAS</feature>
+	    <feature>NET-Framework</feature>
+	</includeallSubFeature>
+  </ServerManager>
+  <MSDTC>
+    <NetworkDTC Action="Enabled" />
+    <XATransaction Action="Enabled" />
+    <SNALU62Trans Action="Enabled" />
+    <RemoteClients Action="Enabled" />
+    <RemoteAdmin Action="Enabled" />
+    <AllowInboundCom Action="Enabled" />
+    <AllowOutboundCom Action="Enabled" />
+    <MutualAuthReq Action="Ignore" />
+    <IncomingAuthReq Action="Ignore" />
+    <NoAuthReq Action="Enabled" />
+    <RestartAfterConf Action="Enabled" />
+  </MSDTC>
+  <ServiceConfig>
+    <Service Name="WAS" StartMode="Automatic" User="" />
+    <Service Name="MSDTC" StartMode="Automatic" User="" />
+	  <Service Name="W3SVC" StartMode="Automatic" User="" />
+ </ServiceConfig>
+</params>

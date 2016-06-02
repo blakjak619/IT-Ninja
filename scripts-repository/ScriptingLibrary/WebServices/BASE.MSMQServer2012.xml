@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SOA The Next Generation: MSMQ server -->
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <!-- Disk drive / volume partitioning; need D: drive as disk, relocate CDROM drive -->
+  <!-- volumes will come pre-defined
+  <Volume>
+      <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:" />
+	  <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+  </Volume>
+ -->
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+  </Bindependency>
+   <ServerManager>
+    <includeallSubFeature>
+		<feature>Net-Framework-Features</feature>
+        <feature>NET-Framework-45-Features</feature> 
+	</includeallSubFeature>
+    <single>
+		<feature>MSMQ</feature>
+		<feature>MSMQ-Services</feature>
+ 		<feature>MSMQ-Directory</feature>
+   </single>
+  </ServerManager>
+  <MSDTC>
+    <!--Action="Enabled" | "Disabled" | "Ignore"-->
+    <NetworkDTC Action="Enabled" />
+    <XATransaction Action="Enabled" />
+    <SNALU62Trans Action="Enabled" />
+    <RemoteClients Action="Enabled" />
+    <RemoteAdmin Action="Enabled" />
+    <AllowInboundCom Action="Enabled" />
+    <AllowOutboundCom Action="Enabled" />
+    <MutualAuthReq Action="Ignore" />
+    <IncomingAuthReq Action="Ignore" />
+    <NoAuthReq Action="Enabled" />
+    <RestartAfterConf Action="Enabled" />
+  </MSDTC>
+  <!-- services will also be configured as clustered
+  <ServiceConfig>
+		<Service Name="MSMQ" StartMode="Automatic" User="" />
+  </ServiceConfig>
+  -->
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\MSMQ\Parameters\security" Name="AllowNonauthenticatedRpc" Value="1" type="DWORD" />
+    <Subkey Action="Add" Key="HKLM:\System\CurrentControlSet\services\NetMsmqActivator" Name="ServiceSidType" Value="1" type="DWORD" />
+  </Reg>
+  <MSMQQueue>
+     <!-- add SCM release admins rights -->
+     <!--<PermAdjust Queue="" Public="" User="" ACE="" Right="" />-->
+    <AllQueues>
+      <Permissions>
+        <Perm User="BRIDGEPOINT\SCM_Release_Admins" ACE="Allow" Right="FullControl" />
+		<Perm User="BRIDGEPOINT\svc_udeploy" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </AllQueues>
+  </MSMQQueue>
+
+</params>

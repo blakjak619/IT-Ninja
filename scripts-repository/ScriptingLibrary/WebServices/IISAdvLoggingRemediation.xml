@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<params Version="1.29">
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" /> 
+  <Folders>
+    <!-- Leave the folder alone. Also, Dont remove it from any version of this file  --> 
+  <Includes>Includes</Includes> 
+  <Temp>tmp</Temp> 
+  </Folders>
+  
+   <Volume>
+    <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+    <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+	  <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+      <Alignment>1024</Alignment>
+      <BlockSize>64k</BlockSize>
+    </DirectAttached>
+  </Volume>
+  
+  <Filesystem>
+    <Folders>
+      <Item Action="Add" Path="c:\temp" />
+      <Item Action="Add" Path="d:\logs" />
+      <Item Action="Add" Path="d:\logs\iis" />
+      <Item Action="Add" Path="d:\logs\iis_adv" />
+    </Folders>
+    <Permissions>
+      <Perm Action="Add" User="BUILTIN\IIS_IUSRS" Target="d:\logs" Right="ReadData" Propagation="None" Ace="Allow" />
+      <Perm Action="Add" User="BUILTIN\IIS_IUSRS" Target="d:\logs" Right="ListDirectory" Propagation="None" Ace="Allow" />
+      <Perm Action="Add" User="BUILTIN\IIS_IUSRS" Target="d:\logs" Right="Modify" Propagation="None" Ace="Allow" />
+      <Perm Action="Add" User="BUILTIN\IIS_IUSRS" Target="d:\logs" Right="WriteData" Propagation="None" Ace="Allow" />
+    </Permissions>
+  </Filesystem>
+  
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="AdvancedLogging64.msi" PathFromBinRoot="DML\Microsoft\AdvancedLogging\AdvancedLogging64.msi" Action="Add">
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>/q</Argument>
+      <Argument>/log c:\temp\AdvancedLogging64.log</Argument>
+    </File>
+  </Bindependency>
+  
+  <IIS>
+	  <AddWebConfiguration PSPath="system.webServer/advancedLogging/server/fields" value="@{id=&quot;X-Forwarded-For&quot;;sourceName=&quot;X-Forwarded-For&quot;;sourceType=&quot;RequestHeader&quot;;logHeaderName=&quot;X-Forwarded-For&quot;;category=&quot;Default&quot;;loggingDataType=&quot;TypeLPCSTR&quot;}" />
+	  <SetWebConfigurationProperty Filter="system.webServer/advancedLogging/server/logDefinitions/logDefinition[@baseFileName='%COMPUTERNAME%-Server']" Name="enabled" value="false" />
+  </IIS>
+
+  <SearchAndReplace StopServices="W3SVC" FilePath="c:\Windows\System32\inetsrv\config\" FileFilter="applicationHost.config"  FindPattern="preCondition=&quot;managedHandler,runtimeVersion2.0&quot;" >
+    <Item ReplaceText="&quot;preCondition=&quot;managedHandler&quot;" />
+  </SearchAndReplace>
+  <SearchAndReplace StopServices="W3SVC" FilePath="c:\Windows\System32\inetsrv\config\" FileFilter="applicationHost.config"  FindPattern="(&lt;add fileExtension=&quot;.rules&quot; allowed=&quot;false&quot; /&gt;)" >
+    <Item ReplaceText="" />
+  </SearchAndReplace>
+  <TextInsert StopServices="W3SVC" StartString="&lt;handlers accessPolicy=&quot;Read, Script&quot;&gt;" IncludeStartString="True" SourceFile="TextFileOps\IISAdvLogging1.txt" EndString="&lt;/handlers&gt;" IncludeEndString="true" TargetFile="c:\Windows\System32\inetsrv\config\applicationHost.config" />
+  <TextInsert StopServices="W3SVC" StartString="&lt;advancedLogging&gt;" IncludeStartString="True" SourceFile="TextFileOps\IISAdvLogging2.txt" EndString="&lt;/advancedLogging&gt;" IncludeEndString="true" TargetFile="c:\Windows\System32\inetsrv\config\applicationHost.config" />
+  <TextInsert StopServices="W3SVC" StartString="&lt;siteDefaults&gt;" SourceFile="TextFileOps\IISAdvLogging3.txt" EndString="&lt;/siteDefaults&gt;" TargetFile="c:\Windows\System32\inetsrv\config\applicationHost.config" />
+  <TextInsert StopServices="W3SVC" StartString="&lt;webLimits /&gt;" SourceFile="TextFileOps\IISAdvLogging4.txt" TargetFile="c:\Windows\System32\inetsrv\config\applicationHost.config" />
+ </params>

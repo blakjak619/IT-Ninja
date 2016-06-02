@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<parameters>
+
+  <!-- 
+******************************
+Service: @@@appName@@@
+Env: DEV
+****************************** 
+-->
+
+  <setParameter name="MaverickEntities-Web.config Connection String" value="metadata=res://*/EmployeeModel.csdl|res://*/EmployeeModel.ssdl|res://*/EmployeeModel.msl;provider=MySql.Data.MySqlClient;provider connection string="server=10.14.40.78;User Id=MUNGED;password=@@@app_pool_password@@@;Persist Security Info=True;database=Maverick;ConvertZeroDateTime=True"" providerName="System.Data.EntityClient" /> 
+
+</parameters>

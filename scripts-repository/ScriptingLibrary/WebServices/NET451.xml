@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SOA The Next Generation 
+	Combines IIS and MSMQ
+	tokenized with @@@ for uDeploy -->
+
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+    <Bindependency>
+		<ServerBinRoot Name="\\10.13.0.206\scratch" />
+		<File Name="dotnetfx451_full_x86_x64.exe" Action="Execute" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.5.1\dotnetfx451_full_x86_x64.exe" ProductIsInstalled="gwmi Win32_Product | ? {$_.name -eq &quot;Microsoft .NET Framework 4.5.1&quot;}" RetryMax="2">
+		  <Argument>/q</Argument>
+		  <Argument>/norestart</Argument>
+		</File> 
+	</Bindependency>
+  
+  </params>

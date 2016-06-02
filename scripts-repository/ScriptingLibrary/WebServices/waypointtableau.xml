@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <ServerManager>
+    <includeallSubFeature>
+		<feature>NET-Framework</feature>
+    <feature>Web-Performance</feature>
+		<feature>SNMP-Services</feature>
+		<feature>WAS</feature>
+    </includeallSubFeature>
+    <Single>
+	  <feature>AS-HTTP-Activation</feature>
+	  <feature>AS-TCP-Activation</feature>
+	  <feature>AS-Named-Pipes</feature>
+	  <feature>Web-Static-Content</feature>
+	  <feature>Web-Default-Doc</feature>
+	  <feature>Web-Dir-Browsing</feature>
+    <feature>Web-ASP-Dev</feature>
+	  <feature>Web-Http-Errors</feature>
+	  <feature>Web-Net-Ext</feature>
+    <feature>Web-Http-Logging</feature>
+    <feature>Web-ISAPI-Ext</feature>
+	  <feature>Web-ISAPI-Filter</feature>
+	  <feature>Web-Request-Monitor</feature>
+    <feature>Web-Basic-Auth</feature>
+    <feature>Web-Windows-Auth</feature>
+    <feature>Web-Digest-Auth</feature>      
+	  <feature>Web-Filtering</feature>
+	  <feature>Web-Mgmt-Tools</feature>
+	  <feature>Web-Mgmt-Console</feature>
+	  <feature>Web-Scripting-Tools</feature>
+	  <feature>Web-Mgmt-Service</feature>
+	  <feature>Web-Mgmt-Compat</feature>
+	  <feature>Web-Metabase</feature>
+      <feature>Web-WMI</feature>
+      <feature>Web-Lgcy-Scripting</feature>
+      <feature>Web-Lgcy-Mgmt-Console</feature>
+	  <feature>Multipath-IO</feature>
+	  <feature>RSAT-Web-Server</feature>
+	  <feature>XPS-Viewer</feature>
+    </Single>
+  </ServerManager>
+</params>

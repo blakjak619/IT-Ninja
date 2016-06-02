@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="dotnetfx45_full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.5\dotnetfx45_full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+    <File Name="makecert.exe" PathFromBinRoot="DML\Microsoft\SDK\Makecert 6.2\makecert.exe" Action="Add"></File>
+  </Bindependency>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>web-WebServer</feature>
+      <feature>Web-Mgmt-Tools</feature>
+      <feature>NET-Framework</feature>
+    </includeallSubFeature>
+  </ServerManager>
+  <IIS>
+    <WWWROOT>C:\WWWROOT</WWWROOT>
+    <RegDOTNETIIS>True</RegDOTNETIIS>
+    <CreateFolderStr>
+      <DIR>Site_A</DIR>
+      <DIR>Site_B</DIR>
+    </CreateFolderStr>
+    <SSL>
+      <Cert Action="Add" Name="Site_B" />
+    </SSL>
+    <ManageAppPool>
+      <Pool Action="Add" NAME="Site_A" NETVer="v4.0" IDType="SpecificUser">
+        <Auth User="BRIDGEPOINT\sstewart1" Password="Thispw!2" />
+      </Pool>
+      <Pool Action="Add" NAME="Site_B" NETVer="v4.0" IDType="NetworkService"></Pool>
+    </ManageAppPool>
+    <Websites>
+      <Site Action="Delete" SiteName="Default Web Site" PhysPath="" AppPool="" SSL="" SSLIP="" SSLPort="" SSLCERTName=""></Site>
+      <Site Action="Add" SiteName="Site_B" PhysPath="Site_B" AppPool="Site_B" SSL="True" SSLIP="0.0.0.0" SSLPort="443" SSLCERTName="Site_B">
+        <Binding action="Add" type="https" address="*" port="443" hostname="" />
+        <Binding action="Delete" type="http" address="*" port="80" hostname="" />
+        <Binding action="Add" type="net.pipe" address="" port="" hostname="" BindingInfo="*" />
+      </Site>
+      <Site Action="Add" SiteName="Site_A" PhysPath="Site_A" AppPool="Site_A" SSL="" SSLIP="" SSLPort="" SSLCERTName=""></Site>
+    </Websites>
+    <WebApp>
+      <App Name="WebApp2" Action="AddNew" ParentSite="Site_B" AppPool="Site_A" PhysPath="C:\WebApp2"></App>
+      <App Action="Add" Path="IIS:\Sites\Site_A\WebApp1" AppPool="Site_B" />
+    </WebApp>
+  </IIS>
+  <WindowsFirewall>
+    <Form State="Disable" Profile="allprofiles" />
+  </WindowsFirewall>
+  <Filesystem>
+    <Folders>
+      <Item Action="Add" Path="C:\WWWROOT\Site_A\WebApp1" />
+      <Item Action="Add" Path="C:\WebApp2" />
+    </Folders>
+  </Filesystem>
+</params>

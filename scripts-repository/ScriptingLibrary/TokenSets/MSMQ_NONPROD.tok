@@ -1,0 +1,2 @@
+NMAusername = BRIDGEPOINT\\dev_svc_msmqAdapter
+NMApassword = @LOOKUPPWD(dev_svc_msmqAdapter)

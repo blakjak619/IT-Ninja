@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+
+  <MSMQQueue>
+	 <!-- add SCM release admins rights -->
+     <!--<PermAdjust Queue="" Public="" User="" ACE="" Right="" />-->
+    <AllQueues>
+      <Permissions>
+        <Perm User="BRIDGEPOINT\SCM_Release_Admins" ACE="Allow" Right="FullControl" />
+		<Perm User="BRIDGEPOINT\svc_udeploy" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </AllQueues>
+  </MSMQQueue>
+</params>

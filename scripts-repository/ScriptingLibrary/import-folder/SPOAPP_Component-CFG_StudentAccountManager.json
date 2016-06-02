@@ -1,0 +1,256 @@
+{
+    "name": "SPOAPP_CFG_StudentAccountManager",
+    "description": "",
+    "created": 1371575906009,
+    "importAutomatically": true,
+    "useVfs": true,
+    "active": true,
+    "deleted": false,
+    "defaultVersionType": "FULL",
+    "cleanupDaysToKeep": 0,
+    "cleanupCountToKeep": 0,
+    "componentTemplate": {
+        "name": "Webdeploy_Config_Template",
+        "description": "",
+        "sourceConfigPluginName": "TFS",
+        "active": true,
+        "sourceConfigProperties": [
+            {
+                "name": "buildDefinition",
+                "value": "${p:TFSBUILDDEF}",
+                "description": "",
+                "secure": false
+            },
+            {
+                "name": "buildStatus",
+                "value": "Succeeded",
+                "description": "",
+                "secure": false
+            },
+            {
+                "name": "includes",
+                "value": "*.xml",
+                "description": "",
+                "secure": false
+            },
+            {
+                "name": "password",
+                "value": "crypt_v1{DESede\/CBC\/PKCS5Padding|desEdeKey|yRZtWwDV31I=|A72crEGlkgfTJhLdi04H1A==}",
+                "description": "",
+                "secure": true
+            },
+            {
+                "name": "project",
+                "value": "${p:TFSTeamProject}",
+                "description": "",
+                "secure": false
+            },
+            {
+                "name": "tfsVersion",
+                "value": "2010",
+                "description": "",
+                "secure": false
+            },
+            {
+                "name": "url",
+                "value": "${p:TFSURL}",
+                "description": "",
+                "secure": false
+            },
+            {
+                "name": "user",
+                "value": "svc_udtfs",
+                "description": "",
+                "secure": false
+            }
+        ],
+        "envPropDefs": [],
+        "propDefs": [],
+        "properties": [],
+        "processes": [{
+            "name": "Download Config Files",
+            "description": "Download artifact and Tokenize",
+            "defaultWorkingDir": "${p:resource\/work.dir}\/${p:component.name}",
+            "takesVersion": true,
+            "inventoryActionType": "ADD",
+            "status": "Active",
+            "configActionType": "ADD",
+            "active": true,
+            "propDefs": [],
+            "rootActivity": {
+                "edges": [
+                    {
+                        "to": "Download Artifacts",
+                        "type": "ALWAYS",
+                        "value": ""
+                    },
+                    {
+                        "to": "Replace Tokens",
+                        "from": "Download Artifacts",
+                        "type": "SUCCESS",
+                        "value": ""
+                    },
+                    {
+                        "to": "2d4a8f70964c12092c70d1cbbe43ee",
+                        "from": "Replace Tokens",
+                        "type": "SUCCESS",
+                        "value": ""
+                    }
+                ],
+                "offsets": [
+                    {
+                        "name": "2d4a8f70964c12092c70d1cbbe43ee",
+                        "x": 0,
+                        "y": 420
+                    },
+                    {
+                        "name": "Download Artifacts",
+                        "x": -60,
+                        "y": 136
+                    },
+                    {
+                        "name": "Replace Tokens",
+                        "x": 253,
+                        "y": 263
+                    }
+                ],
+                "type": "graph",
+                "name": "46249ff4-56ab-40fb-b1d8-73e81b80e15e",
+                "children": [
+                    {
+                        "type": "finish",
+                        "name": "2d4a8f70964c12092c70d1cbbe43ee",
+                        "children": []
+                    },
+                    {
+                        "allowFailure": false,
+                        "useImpersonation": false,
+                        "showHidden": false,
+                        "impersonationUseSudo": false,
+                        "commandName": "Download Artifacts",
+                        "pluginName": "IBM UrbanCode Deploy Versioned File Storage",
+                        "pluginVersion": 16,
+                        "properties": {
+                            "directoryOffset": ".",
+                            "artifactSetBaseDir": "",
+                            "fileIncludePatterns": "**\/*",
+                            "fileExcludePatterns": "",
+                            "syncMode": "true",
+                            "fullVerification": "true",
+                            "setFileExecuteBits": "false",
+                            "verifyFileIntegrity": "false"
+                        },
+                        "type": "plugin",
+                        "name": "Download Artifacts",
+                        "children": []
+                    },
+                    {
+                        "allowFailure": false,
+                        "useImpersonation": false,
+                        "showHidden": false,
+                        "impersonationUseSudo": false,
+                        "commandName": "Replace Tokens",
+                        "pluginName": "File Utils",
+                        "pluginVersion": 29,
+                        "properties": {
+                            "dir": "",
+                            "includes": "**\/*",
+                            "excludes": "",
+                            "startDelimiter": "@@@",
+                            "endDelimiter": "@@@",
+                            "propertyPrefix": "",
+                            "propFile": "replace_tokens.properties",
+                            "envPropValues": "${p:environment\/allProperties},${p:application\/allProperties},${p:system\/allProperties}",
+                            "explicitTokens": ""
+                        },
+                        "type": "plugin",
+                        "name": "Replace Tokens",
+                        "children": []
+                    }
+                ]
+            }
+        }]
+    },
+    "sourceConfigPluginName": "TFS",
+    "envPropDefs": [],
+    "versionPropDefs": [],
+    "propSheetGroup": {"propSheets": [
+        {
+            "name": "TFSComponentProperties",
+            "properties": [
+                {
+                    "name": "buildDefinition",
+                    "value": "APPBUILD.CFG",
+                    "description": "",
+                    "secure": false
+                },
+                {
+                    "name": "buildQuality",
+                    "description": "",
+                    "secure": false
+                },
+                {
+                    "name": "dirOffset",
+                    "description": "",
+                    "secure": false
+                },
+                {
+                    "name": "excludes",
+                    "description": "",
+                    "secure": false
+                },
+                {
+                    "name": "project",
+                    "value": "${p:system\/TFSEnterpriseTeamProject}",
+                    "description": "",
+                    "secure": false
+                },
+                {
+                    "name": "url",
+                    "value": "${p:system\/TFS01DevelopmentURL}",
+                    "description": "",
+                    "secure": false
+                }
+            ]
+        },
+        {
+            "name": "template",
+            "properties": []
+        },
+        {
+            "name": "custom",
+            "properties": [
+                {
+                    "name": "TFSBUILDDEF",
+                    "value": "StudentAccountManager.CFG",
+                    "description": "",
+                    "secure": false
+                },
+                {
+                    "name": "TFSTeamProject",
+                    "value": "${p:system\/TFSEnterpriseTeamProject}",
+                    "description": "${p:system\/TFSEnterpriseTeamProject}",
+                    "secure": false
+                },
+                {
+                    "name": "TFSURL",
+                    "value": "${p:system\/TFS01DevelopmentURL}",
+                    "description": "${p:system\/TFS01DevelopmentURL}",
+                    "secure": false
+                }
+            ]
+        },
+        {
+            "name": "code_station",
+            "properties": [{
+                "name": "repository",
+                "value": "8173afa6-1954-43ed-b036-27cf7089c3a1",
+                "description": "",
+                "secure": false
+            }]
+        }
+    ]},
+    "processes": [],
+    "taskDefs": [],
+    "configTemplates": []
+}

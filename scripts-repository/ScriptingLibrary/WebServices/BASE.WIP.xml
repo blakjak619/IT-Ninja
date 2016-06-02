@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.9">
+  <ProcessingOrder>XML</ProcessingOrder>
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" Log="Standup" Source="STIG-Standup" LogLevel="TRACE" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <DSC Path="c:\scripts\BridgepointScriptingLibrary\DSC\DSC-WIP.ps1"/>
+  <Bindependency>
+    <ServerBinRoot Name="@@@DML@@@" />
+	  <Folder Action="Add" AbsolutePath="@@@DML@@@\dml\PHP\7.0.2" ReqDestination="D:\PHP" Filter="*.ini" />
+	  <Folder Action="Add" AbsolutePath="@@@DML@@@\dml\PHP\7.0.2" ReqDestination="D:\PHP" Filter="*.php" />
+  </Bindependency>
+  <EnvVars>
+    <Var Action="Add" Variable="PATH" Value="d:\php" Target="Machine" />
+  </EnvVars>
+  <Filesystem>
+    <Permissions>
+      <Perm Action="Add" User="IUSR" Target="D:\WWWROOT" Right="FullControl" Propagation="None" Ace="Allow" />
+      <Perm Action="Add" User="IIS_IUSRS" Target="D:\WWWROOT" Right="FullControl" Propagation="None" Ace="Allow" />
+      <Perm Action="Add" User="IIS_IUSRS" Target="D:\php" Right="FullControl" Propagation="None" Ace="Allow" />
+    </Permissions>
+  </Filesystem>
+ <IIS>
+    <WWWROOT>D:\WWWROOT</WWWROOT>
+    <CreateFolderStr>
+      <DIR>Default</DIR>
+    </CreateFolderStr>
+   <ManageAppPool>
+     <Pool Action="Add" NAME="TheDojo" NETVer="v4.0" IDType="ApplicationPoolIdentity" />
+   </ManageAppPool>
+   <WebConfig>
+     <Config Action="Add" PSPath="//system.webServer/fastCGI" ParamHash='"fullPath" = "d:\php\php-cgi.exe"' />
+   </WebConfig>
+   <Websites>
+     <Site Action="Delete" SiteName="Default Web Site" />
+     <Site Action="Add" SiteName="TheDojo" PhysPath="dojo\htdocs" hostname="devthedojopoc.bridgepoint.local" SSL="" SSLIP="" SSLPort="443" SSLCERTName="Default">
+       <Binding action="Add" type="http" address="*" port="80" hostname="dme2dojo.bridgepoint.local" />
+       <Binding action="Add" type="https" address="*" port="443" hostname="dme2dojo.bridgeoint.local" />
+     </Site>
+   </Websites>
+ </IIS>
+</params>

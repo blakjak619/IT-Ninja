@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Volume>
+    <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+    <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+    </DirectAttached>
+  </Volume>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="netapp_windows_host_utilities_7.0_x64.msi" PathFromBinRoot="DML\NetApp\netapp_windows_host_utilities_7.0_x64.msi" Action="Execute" DisableShellExecute="$true" ProductIsInstalled="gwmi Win32_Product | Where-Object {$_.name -like &quot;*netapp*&quot;}">
+	    <!-- Test Case gwmi Win32_Product | Where-Object {$_.name -like "*netapp*"} -->
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+	    <Argument>INSTALLDIR="C:\Program Files\NetApp\Windows Host Utilities\"</Argument>
+	    <Argument>MULTIPATHING=1</Argument>
+        <Argument>/quiet</Argument>
+        <Argument>/norestart</Argument>
+    </File>
+  </Bindependency>
+  
+  <ServiceConfig>
+    <Service Name="MSiSCSI" StartMode="Automatic" />
+ </ServiceConfig>
+
+</params>

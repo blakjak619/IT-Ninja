@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <LocalRights Action="Add" User="bridgepoint\sql_server" Right="SeLockMemoryPrivilege" />
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2008R2" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\Office2007Ent" />
+    <File Name="SQL Server 2008 R2 SP1 (x64bit).exe" Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2008R2\SP1\SQL Server 2008 R2 SP1 (x64bit).exe" PWD="@@@SAPWD@@@">
+      <Argument>/allinstances</Argument>
+      <Argument>/quiet</Argument>
+      <Argument>/IAcceptSQLServerLicenseTerms</Argument>
+    </File>
+    <File Name="SQL Server 2008 R2 SP2 (x64bit).exe" Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2008R2\SP2\SQL Server 2008 R2 SP2 (x64bit).exe">
+      <Argument>/allinstances</Argument>
+      <Argument>/quiet</Argument>
+      <Argument>/IAcceptSQLServerLicenseTerms</Argument>
+    </File>
+    <File Name="OfficeSetup.exe" Action="Add" PathFromBinRoot="DML\Microsoft\Office2007Ent\setup.exe" >
+      <Argument>/adminfile ..\Talisma\TalismaOfficeSetup.MSP</Argument>
+    </File>
+    <File Name="NetFx64.exe" Action="Add" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v2.0\x64\NetFx64.exe">
+      <Argument>/q:a /c:"install.exe /q"</Argument>
+    </File>
+    <File Name="Net2SDKsetup.exe" Action="Add" PathFromBinRoot="DML\Talisma\Talisma.Source\Talisma 8.6\8.6 Final\Prerequisites\Dot Net Framework 2.0\SDK\setup.exe">
+      <Argument>/q:a /c:"install.exe /q"</Argument>
+    </File>
+    <File Name="vcredist_x86.exe" Action="Execute" PathFromBinRoot="DML\Talisma\Talisma.Source\8.6 Final\Prerequisites\VC8 Redistributable\VC++ 2005 Sp1 Redist (x86)\vcredist_x86.exe">
+      <Argument>/q</Argument>
+    </File>
+    <File Name="vcredist_x64.exe" Action="Execute" PathFromBinRoot="DML\Talisma\Talisma.Source\8.6 Final\Prerequisites\VC8 Redistributable\VC++ 2005 Sp1 Redist (x64)\vcredist_x64.exe">
+      <Argument>/q</Argument>
+    </File>
+  </Bindependency>
+   <Volume>
+    <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+    <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+  	<Part Action="Relocate" Label="Disk2" CurrentLetter="" NewLetter="I:" />
+	  <Part Action="Relocate" Label="Disk3" CurrentLetter="" NewLetter="J:" />
+	  <Part Action="Relocate" Label="Disk4" CurrentLetter="" NewLetter="K:" />
+	  <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+      <Alignment>1024</Alignment>
+      <BlockSize>64k</BlockSize>
+    </DirectAttached>
+  </Volume>
+   <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="I:\SQLServer\Backup" />
+		<Item Action="Add" Path="I:\SQLServer\Data" />
+		<Item Action="Add" Path="J:\SQLServer\Log" />
+		<Item Action="Add" Path="K:\SQLServer\TempDB" />
+	 </Folders>
+     <PermInheritance>
+		    <Object Target="I:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		    <Object Target="J:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		    <Object Target="K:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		    <Object Target="I:\SQLServer\Backup" AllowInheritance="True" PreserveInheritance="True" />
+		    <Object Target="I:\SQLServer\Data" AllowInheritance="True" PreserveInheritance="True" />
+		    <Object Target="J:\SQLServer\Log" AllowInheritance="True" PreserveInheritance="True" />
+		    <Object Target="K:\SQLServer\TempDB" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+  </Filesystem>
+  <ServerManager>
+    <Single>
+      <Feature>AS-Ent-Services</Feature>
+    </Single>
+  </ServerManager>
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" Name="EnableLUA" Type="DWORD" Value="0" />
+  </Reg>
+  <MSSQL>
+    <Install>
+      <ININame>INIFiles\@@@SQL_INI_File@@@</ININame>
+      <EXEName>setup.exe</EXEName>
+      <Argument>/Q</Argument>
+      <Argument>/SQLSVCPASSWORD="@@@SQLSVCPASSWORD@@@"</Argument>
+      <Argument>/PID="@@@SQLPRODUCTID@@@"</Argument>
+      <Argument>/AGTSVCPASSWORD="@@@AGTSVCPASSWORD@@@"</Argument>
+      <Argument>/SAPWD="@@@SAPWD@@@"</Argument>
+      <LocalFolderName>@@@SQL_EDITION@@@\SQLExtractedFiles</LocalFolderName>
+    </Install>
+  </MSSQL>
+</params>

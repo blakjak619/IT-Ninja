@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+<!-- XML specific for Products Waypoint Blackboard nonprod SQL server -->
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2008R2" />
+    <File Name="SQL Server 2008 R2 SP1 (x64bit).exe" Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2008R2\SP1\SQL Server 2008 R2 SP1 (x64bit).exe">
+      <Argument>/allinstances</Argument>
+      <Argument>/quiet</Argument>
+      <Argument>/IAcceptSQLServerLicenseTerms</Argument>
+    </File>
+    <File Name="SQL Server 2008 R2 SP2 (x64bit).exe" Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2008R2\SP2\SQL Server 2008 R2 SP2 (x64bit).exe">
+      <Argument>/allinstances</Argument>
+      <Argument>/quiet</Argument>
+      <Argument>/IAcceptSQLServerLicenseTerms</Argument>
+    </File>
+  </Bindependency>
+   <Volume>
+  	<Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="I:" />
+	  <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+      <Alignment>1024</Alignment>
+      <BlockSize>64k</BlockSize>
+    </DirectAttached>
+  </Volume>
+   <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="I:\SQLServer\Backup" />
+		<Item Action="Add" Path="I:\SQLServer\Data" />
+		<Item Action="Add" Path="I:\SQLServer\Log" />
+		<Item Action="Add" Path="I:\SQLServer\TempDB" />
+	 </Folders>
+     <PermInheritance>
+		<Object Target="I:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\Backup" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\Data" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\Log" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\TempDB" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+  </Filesystem>
+  <MSSQL>
+    <Install>
+      <ININame>INIFiles\@@@SQL_EDITION@@@.ini</ININame>
+      <EXEName>setup.exe</EXEName>
+      <Argument>/Q</Argument>
+      <Argument>/SAPWD="@@@SAPWD@@@"</Argument>
+      <LocalFolderName>DeveloperEdition2008\SQLExtractedFiles</LocalFolderName>
+    </Install>
+  </MSSQL>
+</params>

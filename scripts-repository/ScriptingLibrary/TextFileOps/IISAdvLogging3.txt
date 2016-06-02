@@ -1,0 +1,3 @@
+                <logFile logFormat="W3C" directory="D:\Logs\iis" />
+                <traceFailedRequestsLogging directory="%SystemDrive%\inetpub\logs\FailedReqLogFiles" />
+                <advancedLogging directory="D:\Logs\iis_adv" />

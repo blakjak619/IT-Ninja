@@ -1,0 +1,3 @@
+        <advancedLogging>
+            <serverLogs directory="D:\Logs\iis_adv" />
+        </advancedLogging>

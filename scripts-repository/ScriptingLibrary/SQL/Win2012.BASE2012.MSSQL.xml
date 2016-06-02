@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+<!-- Windows Server 2012, SQL Server 2012 -->
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" />
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <LocalRights Action="Add" User="@@@SQLSVCACCOUNT@@@" Right="SeLockMemoryPrivilege" />
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQLServer\Parameters" Name="SQLArg3" Value="-T1118" type="string" >
+      <ServiceConfig>
+        <Service Name="MSSQLSERVER" StartMode="@@@SQLServerStartMode@@@" />
+      </ServiceConfig>
+    </Subkey>
+  </Reg>
+  <EnvVars>
+    <Var Action="Add" Variable="Path" Value="D:\Program Files\Microsoft SQL Server\110\Tools\Binn" Target="Machine" />
+  </EnvVars>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2012\@@@SQL_EDITION@@@" />
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2012\Updates" />
+    <Folder Action="Add" PathFromBinRoot="DML\scripts\INIFiles\StandupScripts" />
+  </Bindependency>
+<Volume>
+      <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:"/>
+      <Part Action="Relocate" Label="Disk1" CurrentLetter="" NewLetter="D:" />
+      <Part Action="Relocate" Label="Disk2" CurrentLetter="" NewLetter="I:" />
+       <Part Action="Relocate" Label="Disk3" CurrentLetter="" NewLetter="J:" />
+       <Part Action="Relocate" Label="Disk4" CurrentLetter="" NewLetter="K:" />
+     <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+      <Alignment>1024</Alignment>
+      <BlockSize>64k</BlockSize>
+    </DirectAttached>
+</Volume>
+   <Filesystem>
+	 <Folders>
+		<Item Action="Add" Path="I:\SQLServer\Backup" />
+		<Item Action="Add" Path="I:\SQLServer\Data" />
+		<Item Action="Add" Path="J:\SQLServer\Log" />
+		<Item Action="Add" Path="K:\SQLServer\TempDB" />
+	 </Folders>
+     <PermInheritance>
+		<Object Target="I:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="J:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="K:\SQLServer" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\Backup" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="I:\SQLServer\Data" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="J:\SQLServer\Log" AllowInheritance="True" PreserveInheritance="True" />
+		<Object Target="K:\SQLServer\TempDB" AllowInheritance="True" PreserveInheritance="True" />
+     </PermInheritance>
+  </Filesystem>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>Net-Framework-Features</feature>
+    </includeallSubFeature>
+  </ServerManager>
+  <MSSQL>
+    <Install>
+      <ININame>INIFiles\@@@SQL_EDITION@@@.ini</ININame>
+      <EXEName>setup.exe</EXEName>
+      <Argument>/IAcceptSQLServerLicenseTerms</Argument>
+      <Argument>/Q</Argument>
+      <Argument>/UpdateEnabled=True</Argument>
+      <Argument>/UpdateSource=UpdateSource</Argument>
+      <Argument>/SQLSVCPASSWORD="@@@SQLSVCPASSWORD@@@"</Argument>
+      <Argument>/PID="@@@SQLPRODUCTID@@@"</Argument>
+      <Argument>/AGTSVCPASSWORD="@@@AGTSVCPASSWORD@@@"</Argument>
+      <Argument>/SAPWD="@@@SAPWD@@@"</Argument>
+      <LocalFolderName>SQLExtractedFiles</LocalFolderName>
+    </Install>
+    <PostInstall>
+		<Script Cmd="sqlcmd -U sa -P @@@SAPWD@@@ -i " Path="/tmp/StandupScripts/common/*.sql" />
+		<Script Cmd="sqlcmd -U sa -P @@@SAPWD@@@ -i " Path="/tmp/StandupScripts/@@@SQLEnv@@@/*.sql" />
+    </PostInstall>
+    <Validate>
+      <SQLCreds Username="sa" Password="@@@SAPWD@@@" />
+      <ReqdPatchLevel>11.00.5058</ReqdPatchLevel>
+    </Validate>
+  </MSSQL>  
+ <Pagefile>
+    <Config DriveLetter="C:" InitialSizeMB="4096" MaximumSizeMB="4096" />
+    <Config DriveLetter="D:" NoPagefile="True" />
+  </Pagefile>
+</params>

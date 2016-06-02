@@ -1,0 +1,1816 @@
+{
+    "name": "SPOAPP_StudentAccountManager",
+    "description": "",
+    "enforceCompleteSnapshots": false,
+    "propSheet": {"properties": [
+        {
+            "name": "appName",
+            "value": "StudentAccountManager",
+            "description": "",
+            "secure": false
+        },
+        {
+            "name": "appStack",
+            "value": "SPOAPP",
+            "description": "",
+            "secure": false
+        }
+    ]},
+    "components": [
+        {
+            "name": "SPOAPP_APP_StudentAccountManager",
+            "description": "",
+            "created": 1371575898556,
+            "importAutomatically": true,
+            "useVfs": true,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "componentTemplate": {
+                "name": "WebDeploy_App_Template",
+                "description": "",
+                "sourceConfigPluginName": "TFS",
+                "active": true,
+                "sourceConfigProperties": [
+                    {
+                        "name": "buildDefinition",
+                        "value": "${p:TFSBUILDDEF}",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "buildStatus",
+                        "value": "Succeeded",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "includes",
+                        "value": "*.zip",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "password",
+                        "value": "crypt_v1{DESede\/CBC\/PKCS5Padding|desEdeKey|ZoEZhMRgR0k=|mH1wPDIUB7RlGgJT47rsQA==}",
+                        "description": "",
+                        "secure": true
+                    },
+                    {
+                        "name": "project",
+                        "value": "${p:TFSTeamProject}",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "tfsVersion",
+                        "value": "2010",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "url",
+                        "value": "${p:TFSURL}",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "user",
+                        "value": "svc_udtfs",
+                        "description": "",
+                        "secure": false
+                    }
+                ],
+                "envPropDefs": [],
+                "propDefs": [],
+                "properties": [],
+                "processes": [{
+                    "name": "Install Web Deploy App",
+                    "description": "",
+                    "defaultWorkingDir": "${p:resource\/work.dir}\/${p:component.name}",
+                    "takesVersion": true,
+                    "inventoryActionType": "ADD",
+                    "status": "Active",
+                    "configActionType": "ADD",
+                    "active": true,
+                    "propDefs": [],
+                    "rootActivity": {
+                        "edges": [
+                            {
+                                "to": "Download Artifacts",
+                                "type": "ALWAYS",
+                                "value": ""
+                            },
+                            {
+                                "to": "09bd2ad7a979506ffe40107d60b30b",
+                                "from": "Download Artifacts",
+                                "type": "SUCCESS",
+                                "value": ""
+                            }
+                        ],
+                        "offsets": [
+                            {
+                                "name": "09bd2ad7a979506ffe40107d60b30b",
+                                "x": 0,
+                                "y": 420
+                            },
+                            {
+                                "name": "Download Artifacts",
+                                "x": -43,
+                                "y": 190
+                            }
+                        ],
+                        "type": "graph",
+                        "name": "c1770908-988d-4666-a5cf-112740d54134",
+                        "children": [
+                            {
+                                "type": "finish",
+                                "name": "09bd2ad7a979506ffe40107d60b30b",
+                                "children": []
+                            },
+                            {
+                                "allowFailure": false,
+                                "useImpersonation": false,
+                                "showHidden": false,
+                                "impersonationUseSudo": false,
+                                "commandName": "Download Artifacts",
+                                "pluginName": "IBM UrbanCode Deploy Versioned File Storage",
+                                "pluginVersion": 16,
+                                "properties": {
+                                    "directoryOffset": ".",
+                                    "artifactSetBaseDir": "",
+                                    "fileIncludePatterns": "**\/*",
+                                    "fileExcludePatterns": "",
+                                    "syncMode": "true",
+                                    "fullVerification": "true",
+                                    "setFileExecuteBits": "false",
+                                    "verifyFileIntegrity": "false"
+                                },
+                                "type": "plugin",
+                                "name": "Download Artifacts",
+                                "children": []
+                            }
+                        ]
+                    }
+                }]
+            },
+            "sourceConfigPluginName": "TFS",
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "template",
+                    "properties": []
+                },
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "906d5127-1b0f-4150-a286-03b8b2cbfb21",
+                        "description": "",
+                        "secure": false
+                    }]
+                },
+                {
+                    "name": "custom",
+                    "properties": [
+                        {
+                            "name": "TFSBUILDDEF",
+                            "value": "StudentAccountManager.CI",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "TFSTeamProject",
+                            "value": "${p:system\/TFSEnterpriseTeamProject}",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "TFSURL",
+                            "value": "${p:system\/TFS01DevelopmentURL}",
+                            "description": "",
+                            "secure": false
+                        }
+                    ]
+                },
+                {
+                    "name": "TFSComponentProperties",
+                    "properties": [
+                        {
+                            "name": "buildDefinition",
+                            "value": "APPBUILD.CI",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "buildQuality",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "dirOffset",
+                            "value": "_PublishedWebsites\\StudentAccountManager.Services_Package",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "excludes",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "project",
+                            "value": "${p:system\/TFSEnterpriseTeamProject}",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "url",
+                            "value": "${p:system\/TFS01DevelopmentURL}",
+                            "description": "",
+                            "secure": false
+                        }
+                    ]
+                }
+            ]},
+            "processes": [],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "SPOAPP_CFG_StudentAccountManager",
+            "description": "",
+            "created": 1371575906009,
+            "importAutomatically": true,
+            "useVfs": true,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "componentTemplate": {
+                "name": "Webdeploy_Config_Template",
+                "description": "",
+                "sourceConfigPluginName": "TFS",
+                "active": true,
+                "sourceConfigProperties": [
+                    {
+                        "name": "buildDefinition",
+                        "value": "${p:TFSBUILDDEF}",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "buildStatus",
+                        "value": "Succeeded",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "includes",
+                        "value": "*.xml",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "password",
+                        "value": "crypt_v1{DESede\/CBC\/PKCS5Padding|desEdeKey|yRZtWwDV31I=|A72crEGlkgfTJhLdi04H1A==}",
+                        "description": "",
+                        "secure": true
+                    },
+                    {
+                        "name": "project",
+                        "value": "${p:TFSTeamProject}",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "tfsVersion",
+                        "value": "2010",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "url",
+                        "value": "${p:TFSURL}",
+                        "description": "",
+                        "secure": false
+                    },
+                    {
+                        "name": "user",
+                        "value": "svc_udtfs",
+                        "description": "",
+                        "secure": false
+                    }
+                ],
+                "envPropDefs": [],
+                "propDefs": [],
+                "properties": [],
+                "processes": [{
+                    "name": "Download Config Files",
+                    "description": "Download artifact and Tokenize",
+                    "defaultWorkingDir": "${p:resource\/work.dir}\/${p:component.name}",
+                    "takesVersion": true,
+                    "inventoryActionType": "ADD",
+                    "status": "Active",
+                    "configActionType": "ADD",
+                    "active": true,
+                    "propDefs": [],
+                    "rootActivity": {
+                        "edges": [
+                            {
+                                "to": "Download Artifacts",
+                                "type": "ALWAYS",
+                                "value": ""
+                            },
+                            {
+                                "to": "Replace Tokens",
+                                "from": "Download Artifacts",
+                                "type": "SUCCESS",
+                                "value": ""
+                            },
+                            {
+                                "to": "2d4a8f70964c12092c70d1cbbe43ee",
+                                "from": "Replace Tokens",
+                                "type": "SUCCESS",
+                                "value": ""
+                            }
+                        ],
+                        "offsets": [
+                            {
+                                "name": "2d4a8f70964c12092c70d1cbbe43ee",
+                                "x": 0,
+                                "y": 420
+                            },
+                            {
+                                "name": "Download Artifacts",
+                                "x": -60,
+                                "y": 136
+                            },
+                            {
+                                "name": "Replace Tokens",
+                                "x": 253,
+                                "y": 263
+                            }
+                        ],
+                        "type": "graph",
+                        "name": "46249ff4-56ab-40fb-b1d8-73e81b80e15e",
+                        "children": [
+                            {
+                                "type": "finish",
+                                "name": "2d4a8f70964c12092c70d1cbbe43ee",
+                                "children": []
+                            },
+                            {
+                                "allowFailure": false,
+                                "useImpersonation": false,
+                                "showHidden": false,
+                                "impersonationUseSudo": false,
+                                "commandName": "Download Artifacts",
+                                "pluginName": "IBM UrbanCode Deploy Versioned File Storage",
+                                "pluginVersion": 16,
+                                "properties": {
+                                    "directoryOffset": ".",
+                                    "artifactSetBaseDir": "",
+                                    "fileIncludePatterns": "**\/*",
+                                    "fileExcludePatterns": "",
+                                    "syncMode": "true",
+                                    "fullVerification": "true",
+                                    "setFileExecuteBits": "false",
+                                    "verifyFileIntegrity": "false"
+                                },
+                                "type": "plugin",
+                                "name": "Download Artifacts",
+                                "children": []
+                            },
+                            {
+                                "allowFailure": false,
+                                "useImpersonation": false,
+                                "showHidden": false,
+                                "impersonationUseSudo": false,
+                                "commandName": "Replace Tokens",
+                                "pluginName": "File Utils",
+                                "pluginVersion": 29,
+                                "properties": {
+                                    "dir": "",
+                                    "includes": "**\/*",
+                                    "excludes": "",
+                                    "startDelimiter": "@@@",
+                                    "endDelimiter": "@@@",
+                                    "propertyPrefix": "",
+                                    "propFile": "replace_tokens.properties",
+                                    "envPropValues": "${p:environment\/allProperties},${p:application\/allProperties},${p:system\/allProperties}",
+                                    "explicitTokens": ""
+                                },
+                                "type": "plugin",
+                                "name": "Replace Tokens",
+                                "children": []
+                            }
+                        ]
+                    }
+                }]
+            },
+            "sourceConfigPluginName": "TFS",
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "custom",
+                    "properties": [
+                        {
+                            "name": "TFSBUILDDEF",
+                            "value": "StudentAccountManager.CFG",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "TFSTeamProject",
+                            "value": "${p:system\/TFSEnterpriseTeamProject}",
+                            "description": "${p:system\/TFSEnterpriseTeamProject}",
+                            "secure": false
+                        },
+                        {
+                            "name": "TFSURL",
+                            "value": "${p:system\/TFS01DevelopmentURL}",
+                            "description": "${p:system\/TFS01DevelopmentURL}",
+                            "secure": false
+                        }
+                    ]
+                },
+                {
+                    "name": "TFSComponentProperties",
+                    "properties": [
+                        {
+                            "name": "buildDefinition",
+                            "value": "APPBUILD.CFG",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "buildQuality",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "dirOffset",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "excludes",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "project",
+                            "value": "${p:system\/TFSEnterpriseTeamProject}",
+                            "description": "",
+                            "secure": false
+                        },
+                        {
+                            "name": "url",
+                            "value": "${p:system\/TFS01DevelopmentURL}",
+                            "description": "",
+                            "secure": false
+                        }
+                    ]
+                },
+                {
+                    "name": "template",
+                    "properties": []
+                },
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "8173afa6-1954-43ed-b036-27cf7089c3a1",
+                        "description": "",
+                        "secure": false
+                    }]
+                }
+            ]},
+            "processes": [],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "MSMQ_configure-appStack",
+            "description": "Handles appStack MSMQ configuration on a per app basis",
+            "created": 1389203743463,
+            "importAutomatically": false,
+            "useVfs": false,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "78ab5a86-4d7d-4f01-8a59-a5b064086cd0",
+                        "description": "",
+                        "secure": false
+                    }]
+                },
+                {
+                    "name": "template",
+                    "properties": []
+                },
+                {
+                    "name": "custom",
+                    "properties": []
+                }
+            ]},
+            "processes": [{
+                "name": "Op-MSMQ",
+                "description": "",
+                "defaultWorkingDir": "${p:resource\/work.dir}\/${p:system\/PowershellScriptDir}",
+                "takesVersion": false,
+                "status": "",
+                "active": true,
+                "propDefs": [],
+                "rootActivity": {
+                    "edges": [
+                        {
+                            "to": "782a781afbd874c03b2f4855132b4e",
+                            "from": "MSMQ Powershell",
+                            "type": "SUCCESS",
+                            "value": ""
+                        },
+                        {
+                            "to": "MSMQ Powershell",
+                            "type": "ALWAYS",
+                            "value": ""
+                        }
+                    ],
+                    "offsets": [
+                        {
+                            "name": "MSMQ Powershell",
+                            "x": -65,
+                            "y": 160
+                        },
+                        {
+                            "name": "782a781afbd874c03b2f4855132b4e",
+                            "x": 0,
+                            "y": 420
+                        }
+                    ],
+                    "type": "graph",
+                    "name": "ed114c54-f03b-42c5-a866-0731fa5fe3eb",
+                    "children": [
+                        {
+                            "type": "finish",
+                            "name": "782a781afbd874c03b2f4855132b4e",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Run PowerShell Script",
+                            "pluginName": "Powershell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "scriptBody": "$xmlPath = \"${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_CFG_${p:application\/appName}\"\n$xml = \"MSMQServer.xml\"\n$xmlFile = join-path $xmlPath $xml\nif (\"${p:envName}\" -ne \"PROD\") { \n$xml = \"nonprod.MSMQServer.xml\" \n$testPath = join-path $xmlPath $xml\nif (test-path $testPath -pathType leaf) { $xmlFile = $testPath }\n}\n$xml = \"${p:envName}.MSMQServer.xml\" \n$testPath = join-path $xmlPath $xml\nif (test-path $testPath -pathType leaf) { $xmlFile = $testPath }\nif (test-path $xmlFile -pathType leaf) {\nwrite-host \"XML file used: $xmlFile\"\n${p:agent\/AGENT_HOME}\\var\\work\\${p:system\/PowershellScriptDir}\\STIG-ServerStandup.ps1 -XMLFile $xmlFile; exit $LASTEXITCODE\n} else { write-host \"No MSMQ XML ($xmlFile) found, skipping.\"; exit 0 }",
+                                "scriptFile": "",
+                                "commandPath": "",
+                                "runAsDaemon": "false",
+                                "outputFile": "",
+                                "threadMode": "default"
+                            },
+                            "type": "plugin",
+                            "name": "MSMQ Powershell",
+                            "children": []
+                        }
+                    ]
+                }
+            }],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "Powershell_Execute_GenerateSCOM",
+            "description": "SCOM_GenMonitorMP",
+            "created": 1379007150000,
+            "importAutomatically": false,
+            "useVfs": false,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "e4490640-0eb6-430c-9a40-207a054ff2b9",
+                        "description": "",
+                        "secure": false
+                    }]
+                },
+                {
+                    "name": "custom",
+                    "properties": []
+                },
+                {
+                    "name": "template",
+                    "properties": []
+                }
+            ]},
+            "processes": [{
+                "name": "Op-Powershell_GenerateSCOM",
+                "description": "",
+                "defaultWorkingDir": "${p:resource\/work.dir}\/${p:system\/PowershellScriptDir}\/SCOM",
+                "takesVersion": false,
+                "status": "",
+                "active": true,
+                "propDefs": [],
+                "rootActivity": {
+                    "edges": [
+                        {
+                            "to": "b3f771bb0106da20c447290c4c320e",
+                            "from": "Run SCOM_GenMonitorMP.ps1",
+                            "type": "SUCCESS",
+                            "value": ""
+                        },
+                        {
+                            "to": "Run SCOM_GenMonitorMP.ps1",
+                            "type": "ALWAYS",
+                            "value": ""
+                        }
+                    ],
+                    "offsets": [
+                        {
+                            "name": "Run SCOM_GenMonitorMP.ps1",
+                            "x": -110,
+                            "y": 170
+                        },
+                        {
+                            "name": "b3f771bb0106da20c447290c4c320e",
+                            "x": 0,
+                            "y": 420
+                        }
+                    ],
+                    "type": "graph",
+                    "name": "4e5532fe-3410-4c3f-b8c4-7ec24830a523",
+                    "children": [
+                        {
+                            "type": "finish",
+                            "name": "b3f771bb0106da20c447290c4c320e",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Run PowerShell Script",
+                            "pluginName": "Powershell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "scriptBody": "$xmlPath = \"${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_CFG_${p:appName}\"\n$xml = \"Monitor.xml\"\n$xmlFile = join-path $xmlPath $xml\n$testPath = join-path $xmlPath ${p:xmlMonitorOverride}\nif (test-path $testpath -pathType leaf) { $xmlFile = $testPath }\nif (test-path $xmlFile -pathType leaf) {${p:agent\/AGENT_HOME}\\var\\work\\${p:system\/PowershellScriptDir}\\SCOM\\SCOM_GenMonitorMP.ps1 -XMLFile $xmlFile -OutputDir ${p:scomxml_basedir}\\${p:appStack}\\${p:appName}\\${p:resource.name}}; exit $LASTEXITCODE",
+                                "scriptFile": "",
+                                "commandPath": "",
+                                "runAsDaemon": "false",
+                                "outputFile": "",
+                                "threadMode": "default"
+                            },
+                            "type": "plugin",
+                            "name": "Run SCOM_GenMonitorMP.ps1",
+                            "children": []
+                        }
+                    ]
+                }
+            }],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "Powershell_Execute_ImportSCOM",
+            "description": "ImportSCOM monitoring XML",
+            "created": 1379031057136,
+            "importAutomatically": false,
+            "useVfs": false,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "template",
+                    "properties": []
+                },
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "602c5ff1-2abc-4345-803d-7e0921e2bc4e",
+                        "description": "",
+                        "secure": false
+                    }]
+                },
+                {
+                    "name": "custom",
+                    "properties": []
+                }
+            ]},
+            "processes": [{
+                "name": "Op-Powershell_ImportSCOM",
+                "description": "Map to \/uDeploy_Server",
+                "defaultWorkingDir": "${p:resource\/work.dir}\/${p:system\/PowershellScriptDir}\/SCOM",
+                "takesVersion": false,
+                "status": "",
+                "active": true,
+                "propDefs": [],
+                "rootActivity": {
+                    "edges": [
+                        {
+                            "to": "Powershell SCOM_ImportMP.ps1",
+                            "type": "ALWAYS",
+                            "value": ""
+                        },
+                        {
+                            "to": "9b5cd482e155e0a52b525472d3b8d6",
+                            "from": "Powershell SCOM_ImportMP.ps1",
+                            "type": "SUCCESS",
+                            "value": ""
+                        }
+                    ],
+                    "offsets": [
+                        {
+                            "name": "9b5cd482e155e0a52b525472d3b8d6",
+                            "x": 0,
+                            "y": 420
+                        },
+                        {
+                            "name": "Powershell SCOM_ImportMP.ps1",
+                            "x": -80,
+                            "y": 170
+                        }
+                    ],
+                    "type": "graph",
+                    "name": "3b21b129-52db-4d69-9338-d007d78aa618",
+                    "children": [
+                        {
+                            "type": "finish",
+                            "name": "9b5cd482e155e0a52b525472d3b8d6",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Run PowerShell Script",
+                            "pluginName": "Powershell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "scriptBody": "$xmlDir = \"${p:scomxml_basedir_local}\\${p:appStack}\\${p:appName}\"; if (test-path $xmlDir) { $xmlDirs = $(dir $xmldir); foreach ($xmldir in $xmldirs) {${p:agent\/AGENT_HOME}\\var\\work\\${p:system\/PowershellScriptDir}\\SCOM\\SCOM_ImportMP.ps1 -XMLPath $xmlDir.FullName}; }; exit $LASTEXITCODE",
+                                "scriptFile": "",
+                                "commandPath": "",
+                                "runAsDaemon": "false",
+                                "outputFile": "",
+                                "threadMode": "default"
+                            },
+                            "type": "plugin",
+                            "name": "Powershell SCOM_ImportMP.ps1",
+                            "children": []
+                        }
+                    ]
+                }
+            }],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "Powershell_Execute_InvokeMonitor",
+            "description": "InvokeMonitor",
+            "created": 1378939616532,
+            "importAutomatically": false,
+            "useVfs": false,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "91b763e4-da3d-4b4e-a1fc-840b8478f5c5",
+                        "description": "",
+                        "secure": false
+                    }]
+                },
+                {
+                    "name": "custom",
+                    "properties": []
+                },
+                {
+                    "name": "template",
+                    "properties": []
+                }
+            ]},
+            "processes": [{
+                "name": "Op-Powershell_InvokeMonitor",
+                "description": "",
+                "defaultWorkingDir": "${p:resource\/work.dir}\/${p:system\/PowershellScriptDir}\/udMonitor",
+                "takesVersion": false,
+                "status": "",
+                "active": true,
+                "propDefs": [],
+                "rootActivity": {
+                    "edges": [
+                        {
+                            "to": "573ad64f996690dff2b99fd4d49fd3",
+                            "from": "Run udInvokeMonitor.ps1",
+                            "type": "SUCCESS",
+                            "value": ""
+                        },
+                        {
+                            "to": "Run udInvokeMonitor.ps1",
+                            "type": "ALWAYS",
+                            "value": ""
+                        }
+                    ],
+                    "offsets": [
+                        {
+                            "name": "573ad64f996690dff2b99fd4d49fd3",
+                            "x": 0,
+                            "y": 420
+                        },
+                        {
+                            "name": "Run udInvokeMonitor.ps1",
+                            "x": 32.5,
+                            "y": 200
+                        }
+                    ],
+                    "type": "graph",
+                    "name": "b828f258-a317-4e7d-a361-e2278f93ef08",
+                    "children": [
+                        {
+                            "type": "finish",
+                            "name": "573ad64f996690dff2b99fd4d49fd3",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Run PowerShell Script",
+                            "pluginName": "Powershell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "scriptBody": "$xmlPath = \"${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_CFG_${p:appName}\"\n$xml = \"Monitor.xml\"\n$xmlFile = join-path $xmlPath $xml\n$testPath = join-path $xmlPath ${p:xmlMonitorOverride}\nif (test-path $testpath -pathType leaf) { $xmlFile = $testPath }\nif (test-path $xmlFile -pathType leaf) {${p:agent\/AGENT_HOME}\\var\\work\\${p:system\/PowershellScriptDir}\\udMonitor\\udInvokeMonitor.ps1 -XMLFile $xmlFile} ; exit $LASTEXITCODE",
+                                "scriptFile": "",
+                                "commandPath": "",
+                                "runAsDaemon": "false",
+                                "outputFile": "",
+                                "threadMode": "default"
+                            },
+                            "type": "plugin",
+                            "name": "Run udInvokeMonitor.ps1",
+                            "children": []
+                        }
+                    ]
+                }
+            }],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "uD lock file - add",
+            "description": "",
+            "created": 1360709081562,
+            "importAutomatically": false,
+            "useVfs": false,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "componentTemplate": {
+                "name": "uDeploy server lock file - add",
+                "description": "add lock file so scheduled task is disabled",
+                "active": true,
+                "envPropDefs": [],
+                "propDefs": [],
+                "properties": [],
+                "processes": [{
+                    "name": "Create lock file",
+                    "description": "",
+                    "defaultWorkingDir": "C:\\udeploy-server",
+                    "takesVersion": false,
+                    "status": "",
+                    "active": true,
+                    "propDefs": [],
+                    "rootActivity": {
+                        "edges": [
+                            {
+                                "to": "c3736887b99c0d25a983a67eb01401",
+                                "from": "Create Lock File - appID",
+                                "type": "SUCCESS",
+                                "value": ""
+                            },
+                            {
+                                "to": "Create Lock File - appID",
+                                "type": "ALWAYS",
+                                "value": ""
+                            }
+                        ],
+                        "offsets": [
+                            {
+                                "name": "c3736887b99c0d25a983a67eb01401",
+                                "x": 0,
+                                "y": 420
+                            },
+                            {
+                                "name": "Create Lock File - appID",
+                                "x": -169,
+                                "y": 232
+                            }
+                        ],
+                        "type": "graph",
+                        "name": "09481d8b-29ac-4f12-a782-87e6191a94b7",
+                        "children": [
+                            {
+                                "type": "finish",
+                                "name": "c3736887b99c0d25a983a67eb01401",
+                                "children": []
+                            },
+                            {
+                                "allowFailure": false,
+                                "useImpersonation": false,
+                                "showHidden": false,
+                                "impersonationUseSudo": false,
+                                "commandName": "Run PowerShell Script",
+                                "pluginName": "Powershell",
+                                "pluginVersion": 3,
+                                "properties": {
+                                    "scriptBody": "$fname = \"C:\\udeploy-server\\${p:parentRequest.id}.lock\"; write-host $fname; set-content -path $fname -value \"${p:parentRequest.id}\"",
+                                    "scriptFile": "",
+                                    "commandPath": "",
+                                    "runAsDaemon": "false",
+                                    "outputFile": "",
+                                    "threadMode": "default"
+                                },
+                                "type": "plugin",
+                                "name": "Create Lock File - appID",
+                                "children": []
+                            }
+                        ]
+                    }
+                }]
+            },
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "custom",
+                    "properties": []
+                },
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "86b9b362-c280-4734-951b-39d72ba98f14",
+                        "description": "",
+                        "secure": false
+                    }]
+                },
+                {
+                    "name": "template",
+                    "properties": []
+                }
+            ]},
+            "processes": [],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "uD lock file - remove",
+            "description": "",
+            "created": 1360789097871,
+            "importAutomatically": false,
+            "useVfs": false,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "componentTemplate": {
+                "name": "uDeploy server lock file - remove",
+                "description": "remove lock file so scheduled task for certs is enabled",
+                "active": true,
+                "envPropDefs": [],
+                "propDefs": [],
+                "properties": [],
+                "processes": []
+            },
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "template",
+                    "properties": []
+                },
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "7db9caa2-c5cc-4077-b5ff-41ad5c14be17",
+                        "description": "",
+                        "secure": false
+                    }]
+                },
+                {
+                    "name": "custom",
+                    "properties": []
+                }
+            ]},
+            "processes": [{
+                "name": "Remove lock file (uDeploy server lock file - remove)",
+                "description": "",
+                "defaultWorkingDir": "${p:resource\/work.dir}\/${p:component.name}",
+                "takesVersion": false,
+                "status": "",
+                "active": true,
+                "propDefs": [],
+                "rootActivity": {
+                    "edges": [
+                        {
+                            "to": "Remove Lock File - appID",
+                            "type": "ALWAYS",
+                            "value": ""
+                        },
+                        {
+                            "to": "31fe77639488b3c96c3978409f07b4",
+                            "from": "Remove Lock File - appID",
+                            "type": "SUCCESS",
+                            "value": ""
+                        }
+                    ],
+                    "offsets": [
+                        {
+                            "name": "Remove Lock File - appID",
+                            "x": -161,
+                            "y": 132
+                        },
+                        {
+                            "name": "31fe77639488b3c96c3978409f07b4",
+                            "x": -10,
+                            "y": 420
+                        }
+                    ],
+                    "type": "graph",
+                    "name": "019ca58c-e7da-4b1e-82f9-cbf34e3bbb3d",
+                    "children": [
+                        {
+                            "type": "finish",
+                            "name": "31fe77639488b3c96c3978409f07b4",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Run PowerShell Script",
+                            "pluginName": "Powershell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "scriptBody": "$fname = \"C:\\udeploy-server\\${p:parentRequest.id}.lock\"; write-host $fname ; remove-item  $fname -force ",
+                                "scriptFile": "",
+                                "commandPath": "",
+                                "runAsDaemon": "false",
+                                "outputFile": "",
+                                "threadMode": "default"
+                            },
+                            "type": "plugin",
+                            "name": "Remove Lock File - appID",
+                            "children": []
+                        }
+                    ]
+                }
+            }],
+            "taskDefs": [],
+            "configTemplates": []
+        },
+        {
+            "name": "Webdeploy_IISconfig-appStack",
+            "description": "Combines IIS\/MSMQ config (powershell) with Webdeploy - APP\/CFG component specific",
+            "created": 1378764396536,
+            "importAutomatically": false,
+            "useVfs": false,
+            "active": true,
+            "deleted": false,
+            "defaultVersionType": "FULL",
+            "cleanupDaysToKeep": 0,
+            "cleanupCountToKeep": 0,
+            "envPropDefs": [],
+            "versionPropDefs": [],
+            "propSheetGroup": {"propSheets": [
+                {
+                    "name": "custom",
+                    "properties": []
+                },
+                {
+                    "name": "template",
+                    "properties": []
+                },
+                {
+                    "name": "code_station",
+                    "properties": [{
+                        "name": "repository",
+                        "value": "679305ed-145e-49c0-9ff0-1c6e705ffa28",
+                        "description": "",
+                        "secure": false
+                    }]
+                }
+            ]},
+            "processes": [{
+                "name": "Op-IIS_Webdeploy",
+                "description": "",
+                "defaultWorkingDir": "${p:resource\/work.dir}\/${p:system\/PowershellScriptDir}",
+                "takesVersion": false,
+                "status": "",
+                "active": true,
+                "propDefs": [],
+                "rootActivity": {
+                    "edges": [
+                        {
+                            "to": "e8ecab2e58351cd38290a033005e51",
+                            "from": "MS Webdeploy - appStack Services",
+                            "type": "SUCCESS",
+                            "value": ""
+                        },
+                        {
+                            "to": "MS Webdeploy - appStackWeb Website",
+                            "from": "Test App Type",
+                            "type": "VALUE",
+                            "value": "*WEB*\n*web*"
+                        },
+                        {
+                            "to": "IIS Powershell",
+                            "type": "ALWAYS",
+                            "value": ""
+                        },
+                        {
+                            "to": "Test App Type",
+                            "from": "IIS Powershell",
+                            "type": "SUCCESS",
+                            "value": ""
+                        },
+                        {
+                            "to": "e8ecab2e58351cd38290a033005e51",
+                            "from": "MS Webdeploy - appStackWeb Website",
+                            "type": "SUCCESS",
+                            "value": ""
+                        },
+                        {
+                            "to": "MS Webdeploy - appStack Services",
+                            "from": "Test App Type",
+                            "type": "VALUE",
+                            "value": ""
+                        }
+                    ],
+                    "offsets": [
+                        {
+                            "name": "MS Webdeploy - appStack Services",
+                            "x": 70,
+                            "y": 310
+                        },
+                        {
+                            "name": "Test App Type",
+                            "x": -254.5,
+                            "y": 180
+                        },
+                        {
+                            "name": "e8ecab2e58351cd38290a033005e51",
+                            "x": 0,
+                            "y": 510
+                        },
+                        {
+                            "name": "MS Webdeploy - appStackWeb Website",
+                            "x": -289.5,
+                            "y": 310
+                        },
+                        {
+                            "name": "IIS Powershell",
+                            "x": -259.5,
+                            "y": 25
+                        }
+                    ],
+                    "type": "graph",
+                    "name": "99a0e11c-d8ba-4804-a84e-426024b4fe68",
+                    "children": [
+                        {
+                            "type": "finish",
+                            "name": "e8ecab2e58351cd38290a033005e51",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Shell",
+                            "pluginName": "Shell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "directoryOffset": ".",
+                                "shellInterpreter": "",
+                                "scriptBody": "\"${p:system\/WebdeployInstallPath}\" -source:package='${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_APP_${p:application\/appName}\\${p:application\/appName}.Services.zip' -dest:auto,computerName='localhost',includeAcls='False' -verb:sync -disableLink:AppPoolExtension -disableLink:ContentExtension -disableLink:CertificateExtension -setParamFile:\"${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_CFG_${p:application\/appName}\\${p:envName}.SetParameters.xml\"",
+                                "runAsDaemon": "false",
+                                "outputFile": ""
+                            },
+                            "type": "plugin",
+                            "name": "MS Webdeploy - appStack Services",
+                            "children": []
+                        },
+                        {
+                            "propertyName": "application.name",
+                            "type": "switch",
+                            "name": "Test App Type",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Shell",
+                            "pluginName": "Shell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "directoryOffset": ".",
+                                "shellInterpreter": "",
+                                "scriptBody": "\"${p:system\/WebdeployInstallPath}\" -source:package='${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_APP_${p:application\/appName}\\${p:application\/appName}.Website.zip' -dest:auto,computerName='localhost',includeAcls='False' -verb:sync -disableLink:AppPoolExtension -disableLink:ContentExtension -disableLink:CertificateExtension -setParamFile:\"${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_CFG_${p:application\/appName}\\${p:envName}.SetParameters.xml\"",
+                                "runAsDaemon": "false",
+                                "outputFile": ""
+                            },
+                            "type": "plugin",
+                            "name": "MS Webdeploy - appStackWeb Website",
+                            "children": []
+                        },
+                        {
+                            "allowFailure": false,
+                            "useImpersonation": false,
+                            "showHidden": false,
+                            "impersonationUseSudo": false,
+                            "commandName": "Run PowerShell Script",
+                            "pluginName": "Powershell",
+                            "pluginVersion": 3,
+                            "properties": {
+                                "scriptBody": "$xmlPath = \"${p:agent\/AGENT_HOME}\\var\\work\\${p:appStack}_CFG_${p:application\/appName}\"\n$xml = \"WebServer.xml\"\n$xmlFile = join-path $xmlPath $xml\nif (\"${p:envName}\" -ne \"PROD\") { \n$xml = \"nonprod.WebServer.xml\" \n$testPath = join-path $xmlPath $xml\nif (test-path $testPath -pathType leaf) { $xmlFile = $testPath }\n}\n$xml = \"${p:envName}.WebServer.xml\" \n$testPath = join-path $xmlPath $xml\nif (test-path $testPath -pathType leaf) { $xmlFile = $testPath }\nwrite-host \"XML file used: $xmlFile\"\n${p:agent\/AGENT_HOME}\\var\\work\\${p:system\/PowershellScriptDir}\\STIG-ServerStandup.ps1 -XMLFile $xmlFile; exit $LASTEXITCODE",
+                                "scriptFile": "",
+                                "commandPath": "",
+                                "runAsDaemon": "false",
+                                "outputFile": "",
+                                "threadMode": "default"
+                            },
+                            "type": "plugin",
+                            "name": "IIS Powershell",
+                            "children": []
+                        }
+                    ]
+                }
+            }],
+            "taskDefs": [],
+            "configTemplates": []
+        }
+    ],
+    "environments": [],
+    "processes": [{
+        "name": "Install_StudentAccountManager",
+        "description": "",
+        "inventoryManagementType": "AUTOMATIC",
+        "offlineAgentHandling": "PRE_EXECUTION_CHECK",
+        "rootActivity": {
+            "edges": [
+                {
+                    "to": "fe211e2d6b29ee122fe7dda3f433cc",
+                    "from": "Add SCOM (PROD)",
+                    "type": "VALUE",
+                    "value": ""
+                },
+                {
+                    "to": "fe211e2d6b29ee122fe7dda3f433cc",
+                    "from": "4b3f5c188880d7e1c46961f8cc8794",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "6a9e6909713ad1f9fcab4f03137c66",
+                    "from": "Add SCOM (PROD)",
+                    "type": "VALUE",
+                    "value": "PROD*\nprod*"
+                },
+                {
+                    "to": "4b3f5c188880d7e1c46961f8cc8794",
+                    "from": "6a9e6909713ad1f9fcab4f03137c66",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "cf7e992c8ffe9997502cbdefcabec1",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "6a9e6909713ad1f9fcab4f03137c66",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "a4dab764a5da90cebbf9edae699070",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "cf7e992c8ffe9997502cbdefcabec1",
+                    "from": "d62156c08232091eb21f343f96b425",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "22a217bea4528fefb84696cc96e1ba",
+                    "from": "a4dab764a5da90cebbf9edae699070",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "a4dab764a5da90cebbf9edae699070",
+                    "from": "923790fcc8da6b21354e2004c3722a",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "d62156c08232091eb21f343f96b425",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "923790fcc8da6b21354e2004c3722a",
+                    "from": "cf7e992c8ffe9997502cbdefcabec1",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "19a3fca1d4078fded5e82bda79de9a",
+                    "type": "ALWAYS",
+                    "value": ""
+                },
+                {
+                    "to": "a4dde217d49b67740a89bc4f63fb88",
+                    "from": "fe211e2d6b29ee122fe7dda3f433cc",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "2f6769c03afc78ad9ce7774923dbe1",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "22a217bea4528fefb84696cc96e1ba",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "4b3f5c188880d7e1c46961f8cc8794",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "73510e4eea0e7138bb705f166eca95",
+                    "from": "923790fcc8da6b21354e2004c3722a",
+                    "type": "FAILURE",
+                    "value": ""
+                },
+                {
+                    "to": "d62156c08232091eb21f343f96b425",
+                    "from": "19a3fca1d4078fded5e82bda79de9a",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "Add SCOM (PROD)",
+                    "from": "2f6769c03afc78ad9ce7774923dbe1",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "2f6769c03afc78ad9ce7774923dbe1",
+                    "from": "22a217bea4528fefb84696cc96e1ba",
+                    "type": "SUCCESS",
+                    "value": ""
+                }
+            ],
+            "offsets": [
+                {
+                    "name": "fe211e2d6b29ee122fe7dda3f433cc",
+                    "x": -240,
+                    "y": 600
+                },
+                {
+                    "name": "19a3fca1d4078fded5e82bda79de9a",
+                    "x": -187.5,
+                    "y": 60
+                },
+                {
+                    "name": "22a217bea4528fefb84696cc96e1ba",
+                    "x": 190,
+                    "y": 390
+                },
+                {
+                    "name": "Add SCOM (PROD)",
+                    "x": 210,
+                    "y": 540
+                },
+                {
+                    "name": "2f6769c03afc78ad9ce7774923dbe1",
+                    "x": 190,
+                    "y": 470
+                },
+                {
+                    "name": "923790fcc8da6b21354e2004c3722a",
+                    "x": 197.5,
+                    "y": 220
+                },
+                {
+                    "name": "73510e4eea0e7138bb705f166eca95",
+                    "x": -260,
+                    "y": 310
+                },
+                {
+                    "name": "4b3f5c188880d7e1c46961f8cc8794",
+                    "x": 141,
+                    "y": 730
+                },
+                {
+                    "name": "d62156c08232091eb21f343f96b425",
+                    "x": 141,
+                    "y": 51
+                },
+                {
+                    "name": "cf7e992c8ffe9997502cbdefcabec1",
+                    "x": 141,
+                    "y": 131
+                },
+                {
+                    "name": "a4dab764a5da90cebbf9edae699070",
+                    "x": 189.9999999999999,
+                    "y": 310
+                },
+                {
+                    "name": "a4dde217d49b67740a89bc4f63fb88",
+                    "x": -160,
+                    "y": 790
+                },
+                {
+                    "name": "6a9e6909713ad1f9fcab4f03137c66",
+                    "x": 190,
+                    "y": 640
+                }
+            ],
+            "type": "graph",
+            "name": "1a8482bf-a02f-498e-8c32-43d7ce6cb37f",
+            "children": [
+                {
+                    "type": "finish",
+                    "name": "a4dde217d49b67740a89bc4f63fb88",
+                    "children": []
+                },
+                {
+                    "componentName": "uD lock file - add",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "19a3fca1d4078fded5e82bda79de9a",
+                    "children": [{
+                        "componentTemplateName": "uDeploy server lock file - add",
+                        "componentName": "uD lock file - add",
+                        "componentProcessName": "Create lock file",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "uDLockFile - add",
+                        "children": []
+                    }]
+                },
+                {
+                    "componentName": "uD lock file - remove",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "fe211e2d6b29ee122fe7dda3f433cc",
+                    "children": [{
+                        "componentName": "uD lock file - remove",
+                        "componentProcessName": "Remove lock file (uDeploy server lock file - remove)",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "uDLockFile - remove (on success)",
+                        "children": []
+                    }]
+                },
+                {
+                    "componentName": "uD lock file - remove",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "73510e4eea0e7138bb705f166eca95",
+                    "children": [{
+                        "componentName": "uD lock file - remove",
+                        "componentProcessName": "Remove lock file (uDeploy server lock file - remove)",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "uDLockFile - remove (on failure)",
+                        "children": []
+                    }]
+                },
+                {
+                    "componentName": "Webdeploy_IISconfig-appStack",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "22a217bea4528fefb84696cc96e1ba",
+                    "children": [{
+                        "componentName": "Webdeploy_IISconfig-appStack",
+                        "componentProcessName": "Op-IIS_Webdeploy",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "Execute Powershell and Webdeploy",
+                        "children": []
+                    }]
+                },
+                {
+                    "componentName": "SPOAPP_APP_StudentAccountManager",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "d62156c08232091eb21f343f96b425",
+                    "children": [{
+                        "componentName": "SPOAPP_APP_StudentAccountManager",
+                        "status": "Active",
+                        "type": "inventoryVersionDiff",
+                        "name": "3b1d1737-c1b2-4659-9b8e-37e851fb06fd",
+                        "children": [{
+                            "componentTemplateName": "WebDeploy_App_Template",
+                            "componentName": "SPOAPP_APP_StudentAccountManager",
+                            "componentProcessName": "Install Web Deploy App",
+                            "allowFailure": false,
+                            "properties": {},
+                            "type": "componentProcess",
+                            "name": "Download Application",
+                            "children": []
+                        }]
+                    }]
+                },
+                {
+                    "componentName": "SPOAPP_CFG_StudentAccountManager",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "cf7e992c8ffe9997502cbdefcabec1",
+                    "children": [{
+                        "componentName": "SPOAPP_CFG_StudentAccountManager",
+                        "status": "Active",
+                        "type": "inventoryVersionDiff",
+                        "name": "5c5abca4-3b29-4b2d-a652-17258a87079a",
+                        "children": [{
+                            "componentTemplateName": "Webdeploy_Config_Template",
+                            "componentName": "SPOAPP_CFG_StudentAccountManager",
+                            "componentProcessName": "Download Config Files",
+                            "allowFailure": false,
+                            "properties": {},
+                            "type": "componentProcess",
+                            "name": "Download Configuration",
+                            "children": []
+                        }]
+                    }]
+                },
+                {
+                    "componentName": "Powershell_Execute_InvokeMonitor",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "2f6769c03afc78ad9ce7774923dbe1",
+                    "children": [{
+                        "componentName": "Powershell_Execute_InvokeMonitor",
+                        "componentProcessName": "Op-Powershell_InvokeMonitor",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "Execute Invoke Monitor",
+                        "children": []
+                    }]
+                },
+                {
+                    "propertyName": "environment.name",
+                    "type": "switch",
+                    "name": "Add SCOM (PROD)",
+                    "children": []
+                },
+                {
+                    "componentName": "Powershell_Execute_GenerateSCOM",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "6a9e6909713ad1f9fcab4f03137c66",
+                    "children": [{
+                        "componentName": "Powershell_Execute_GenerateSCOM",
+                        "componentProcessName": "Op-Powershell_GenerateSCOM",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "Generate SCOM XML",
+                        "children": []
+                    }]
+                },
+                {
+                    "componentName": "Powershell_Execute_ImportSCOM",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "4b3f5c188880d7e1c46961f8cc8794",
+                    "children": [{
+                        "componentName": "Powershell_Execute_ImportSCOM",
+                        "componentProcessName": "Op-Powershell_ImportSCOM",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "Import SCOM XML",
+                        "children": []
+                    }]
+                },
+                {
+                    "componentName": "MSMQ_configure-appStack",
+                    "properties": [
+                        {
+                            "name": "failFast",
+                            "value": "false"
+                        },
+                        {
+                            "name": "runOnlyOnFirst",
+                            "value": "false"
+                        },
+                        {
+                            "name": "maxIteration",
+                            "value": "-1"
+                        }
+                    ],
+                    "type": "componentEnvironmentIterator",
+                    "name": "a4dab764a5da90cebbf9edae699070",
+                    "children": [{
+                        "componentName": "MSMQ_configure-appStack",
+                        "componentProcessName": "Op-MSMQ",
+                        "allowFailure": false,
+                        "properties": {},
+                        "type": "componentProcess",
+                        "name": "Execute Powershell MSMQ configure",
+                        "children": []
+                    }]
+                }
+            ]
+        },
+        "propDefs": []
+    }],
+    "taskDefs": []
+}

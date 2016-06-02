@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.29">
+  
+  <!-- PROCESSING ORDER -->
+  <!-- ProcessingOrder tells the script to process the XML tags in order by: -->
+  <!-- XML = In the order that they appear in the XML file -->
+  <!-- Script (or null) = In the legacy order of the script; e.g.: do all tag A's, then do all tag B's, etc. -->
+  <!-- This tag is optional, the legacy XML files do not have it. It is only necessary if you want your XML file -->
+  <!-- to process in the order specified in the XML file. -->
+  <!-- Examples: -->
+  <!-- <ProcessingOrder>Script</ProcessingOrder> -->
+  <!-- <ProcessingOrder>XML</ProcessingOrder> -->
+  <!-- Note that by default this params.xml file doesn't contain a directive at all. -->
+  
+  
+  <!-- LOGGING -->
+  <!-- Levels for Logging are ERROR | WARN | SUCCESS | INFO | AUDIT | DEBUG | TRACE | VERBOSE | CUSTOM -->
+  <!-- ERROR will only log severe errors -->
+  <!-- WARN will log errors and warnings -->
+  <!-- SUCCESS won't record anything -->
+  <!-- INFO will log severe errors, warngins, and info-level messages -->
+  <!-- AUDIT will add audit messages -->
+  <!-- DEBUG will add debug messages -->
+  <!-- TRACE will add function call messages -->
+  <!-- VERBOSE will include everything -->
+  <!-- CUSTOM will indicate that custom event ID's will be used and is effectively log everything -->
+  <Logging State="Enabled" Name="STIG-Standup[TimeStamp].log" Log="Standup" Source="STIG-Standup" LogLevel="WARN" >
+    <!-- <Log Name="Service or Application Name" Provider="Subfunction" /> -->
+    <Log Name="OpsBrain" Provider="OpsBrainService" />
+	<!--
+    <Log Name="OpsBrain" Provider="OverScript" />
+    <Log Name="OpsBrain" Provider="opb_build_vm" />
+	-->
+  </Logging>
+  
+  
+  <!-- FOLDERS -->
+  <!-- This tag specifies where the includes folder is and where the working temp folder is. -->
+  <Folders>
+  <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+	  <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  
+  
+  <!-- LOCAL USER RIGHTS -->
+  <!-- <LocalRights Action="Add" User="bridgepoint\sql_server" Right="SeLockMemoryPrivilege" /> -->
+
+
+  <!-- WINDOWS ENVIRONMENT VARIABLES -->
+  <EnvVars>
+    <!-- <Var Action="Add|Set|Del" Variable=":string:" Value=":string:" Target="Machine|User" /> -->
+	  <Var Action="Add" Variable="STIG-Test" Value="Test" Target="User" />
+  </EnvVars>
+  
+  
+  <!-- BINARY(executables) DEPENDENCIES -->
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <!-- BinDependency Performs File and Folder copying and execution -->
+    <!-- <File Action="Add|Execute" Name="" PathFromBinRoot="" /> => Copies file from PathFromBinRoot/Name to the temp folder defined in the <Folders> tag above. -->
+    <!-- If the Action is execute then the file will be executed. This process isn't as reliable as executing .exe's and .msi's from DSC. Use DSC instead. -->
+    <!-- Example: Copy the SQL Install Folder to the Temp directory
+    <Folder Action="Add" PathFromBinRoot="DML\Microsoft\SQL Server\SQLServer2012\DeveloperEdition" />
+    -->
+    <!-- Example: Install .Net 4.0
+    <File Name="dotNetFx40_Full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.0\dotNetFx40_Full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File> 
+    -->
+    
+    <!-- Example: Install .Net 4.5
+    <File Name="dotnetfx45_full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.5\dotnetfx45_full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File> 
+    -->
+    
+    <!-- Example: WebDeploy Install-->
+    <!-- note: only one version of WebDeploy can be specified -->
+    <!-- specify the install path to check if already installed -->
+    <!-- 
+    <File Name="WebDeploy_2_10_amd64_en-US.msi" PathFromBinRoot="DML\Microsoft\Webdeploy\V2.0\WebDeploy_2_10_amd64_en-US.msi" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/l WebDeployInstallLog.txt</Argument>
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>ADDLOCAL=MSDeployFeature,MSDeployAgentFeature,MSDeployUIFeature,DelegationUIFeature,MSDeployShortcuts,MSDeployWMSVCHandlerFeature</Argument>
+
+      <CheckInstallPath>C:\Program Files\IIS\Microsoft Web Deploy V2\msdeploy.exe</CheckInstallPath>
+    </File>
+    -->
+  </Bindependency>
+  
+  
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>RSAT-RemoteAccess</feature>
+    </includeallSubFeature>
+    <Single>
+      <feature>FS-Resource-Manager</feature>
+    </Single>
+  </ServerManager>
+  
+  
+  <IIS>
+    <WWWROOT>C:\WWWROOT</WWWROOT>
+    <RegDOTNETIIS>True</RegDOTNETIIS>
+    <CreateFolderStr>
+      <DIR>LeadManagement\CommunicationAccess</DIR>
+      <DIR>LeadManagement\ProspectNotificationManager</DIR>
+    </CreateFolderStr>
+    <SSL>
+      <Cert Action="Add" Name="ProspectCertificate" />
+      <Cert Action="Copy" Name="ExistingCert.pfx" CertPW="Prompt | ClearTxtPW" SecurePW="SecureStringPW" />
+    </SSL>
+    <ManageAppPool>
+      <!--<Pool Action="Add" NAME="ProspectNotification" NETVer="v4.0" IDType="ApplicationPoolIdentity" | "LocalService" | "LocalSystem" | "NetworkService" | "SpecificUser" /> -->
+      <Pool Action="Add" NAME="ProspectNotification" NETVer="v4.0" IDType="SpecificUser">
+        <Auth User="%_USER_%" Password="%_PASSWORD_%" />
+      </Pool>
+      <!--<Pool Action="Add" NAME="NAME" NETVer="v4.0" IDType="SpecificUser">
+	<Auth User="%_USER_%" Password="%_PASSWORD_%" />
+	</Pool>-->
+      <!--<Pool Action="Delete" NAME="NAME"></Pool>-->
+    </ManageAppPool>
+    <Websites>
+      <Site Action="Add" SiteName="InternalServices" PhysPath="LeadManagement" AppPool="ASP.NET v4.0" SSL="" SSLIP="" SSLPort="" SSLCERTName="">
+        <Binding action="Add" type="http" address="*" port="8080" hostname="" />
+        <Binding action="Add" type="net.msmq" address="" port="" hostname="" BindingInfo="mq-msmq1d" />
+        <Binding action="Add" type="msmq.formatname" address="" port="" hostname="" BindingInfo="mq-msmq1d" />
+        <Binding action="Add" type="net.pipe" address="" port="" hostname="" BindingInfo="*" />
+        <Binding action="Add" type="net.tcp" address="" port="" hostname="" BindingInfo="808:*" />
+      </Site>
+      <!--%windir%\system32\inetsrv\appcmd.exe set site "Default Web Site" -+bindings.[protocol='net.msmq',bindingInformation='localhost']-->
+      <!--<Site SiteName="" PhysPath="" AppPool="" SSL="" SSLIP="" SSLPort="" SSLCERTName=""></Site>-->
+      <!--<Site SiteName="" PhysPath="" AppPool="" SSL="" SSLIP="" SSLPort="" SSLCERTName=""></Site>-->
+    </Websites>
+    <WebApp>
+      <App Action="Delete" Path="IIS:\Sites\WebSite1\WebApp2" DeletePhysical="False" />
+      <App Action="Add" Path="IIS:\Sites\InternalServices\CommunicationAccess" AppPool="ProspectNotification" />
+      <App Path="IIS:\Sites\InternalServices\ProspectNotificationManager" AppPool="ProspectNotification" Action="Add" />
+      <!--<App Path="" AppPool="" />-->
+      <!--<App Action="Delete" Path="" DeletePhysical="True | False" />-->
+      <App Action="AddNew" Name="WebApp2" ParentSite="Site_B" AppPool="Site_A" PhysPath="C:\WebApp2"></App>
+    </WebApp>
+    <EnabledProto>
+      <Item Action="Add" IISPath="IIS:\Sites\InternalServices\ProspectNotificationManager" Proto="http" />
+      <Item Action="Add" IISPath="IIS:\Sites\InternalServices\ProspectNotificationManager" Proto="net.msmq" />
+      <Item Action="Add" IISPath="IIS:\Sites\InternalServices\ProspectNotificationManager" Proto="net.pipe" />
+      <Item Action="Add" IISPath="IIS:\Sites\InternalServices\CommunicationAccess" Proto="http" />
+      <Item Action="Add" IISPath="IIS:\Sites\InternalServices\CommunicationAccess" Proto="net.pipe" />
+      <!--<Item Action="Add | Delete" IISPath="IIS:\Sites\SDChargers" Proto="NET.MSMQ" />-->
+    </EnabledProto>
+    <EnabledAuth>
+      <Item Action="" IISPath="" AuthType="" />
+      <!--<Item Action="Enable | Disable" IISPath="IIS:\Sites\Beck" AuthType="digestAuthentication | anonymousAuthentication | iisClientCertificateMappingAuthentication | basicAuthentication | clientCertificateMappingAuthentication | windowsAuthentication" />-->
+    </EnabledAuth>
+    <VirtDir>
+      <!--<VD Action="Add" Name="Share" PhysPath="D:\www\SiteA\Share" IISPath="IIS:\Sites\SiteA\Share" />-->
+      <!--<VD Action="Add" Name="" PhysPath="" IISPath="" />-->
+    </VirtDir>
+    <ClientCache>
+      <!--<Item Action="" IISPath="" Control="" ExpiresDate="" ExpiresDays="" />-->
+      <!--<Item Action="Add" IISPath="IIS:\Sites\My Site\PathA" Control="NoControl" />-->
+      <!--<Item Action="Add" IISPath="IIS:\Sites\SiteA\PathB" Control="DisableCache" />-->
+      <!--<Item Action="Add" IISPath="IIS:\Sites\SiteC\PathD\InE" Control="UseMaxAge" ExpiresDays="23" />-->
+      <!--<Item Action="Add" IISPath="IIS:\Sites\Default Site B" Control="UseExpires" ExpiresDate="1/3/1925 8:18:05" />-->
+    </ClientCache>
+    <Compression>
+      <!--<Node Action="Add" IISPath="" CompressionType="Static | Dynamic" State="Enabled | Disabled" />-->
+      <!--<Node Action="Add" IISPath="" CompressionType="Static | Dynamic" State="Enabled | Disabled" />-->
+      <!--<Node Action="Add" IISPath="" CompressionType="Static | Dynamic" State="Enabled | Disabled" />-->
+    </Compression>
+    <OutputCaching>
+      <!--<Ext Action="" IISPath="" Extension="" KernelCaching="" UserCaching="" PeriodDurationSeconds="" Location="" />-->
+      <!--<Ext Action="Add | ClearAll" IISPath="" Extension="" KernelCaching="DontCache | CacheUntilChange | CacheForTimePeriod | DisableCache" UserCaching="DontCache | CacheUntilChange | CacheForTimePeriod | DisableCache" PeriodDurationSeconds="" Location="Any | Client | Downstream | Server | None | ServerAndClient" />-->
+      <!--<Ext Action="ClearAll" IISPath="IIS:\Sites\Padres" />-->
+      <!--<Ext Action="Add" IISPath="IIS:\Sites\Chargers" Extension=".png" KernelCaching="CacheForTimePeriod" UserCaching="CacheUntilChange" PeriodDurationSeconds="9000" />-->
+      <!--<Ext Action="Add" IISPath="IIS:\Sites\CleBrowns" Extension=".jpg" UserCaching="CacheUntilChange" />-->
+    </OutputCaching>
+    <Config>
+      <Setting Action="Set" Element="Add" Address="*" maxConnection="100" />
+      <Setting Action="Set" Element="processModel" maxWorkerThreads="100" maxIoThreads="100" />
+      <Setting Action="Set" Element="httpRuntime" minFreeThreads="704" minLocalRequestFreeThreads="608" />
+    </Config>
+  </IIS>
+  <MSDTC>
+    <!--Action="Enabled" | "Disabled" | "Ignore"-->
+    <NetworkDTC Action="Enabled" />
+    <XATransaction Action="Enabled" />
+    <SNALU62Trans Action="Enabled" />
+    <RemoteClients Action="Enabled" />
+    <RemoteAdmin Action="Enabled" />
+    <AllowInboundCom Action="Enabled" />
+    <AllowOutboundCom Action="Enabled" />
+    <MutualAuthReq Action="Ignore" />
+    <IncomingAuthReq Action="Ignore" />
+    <NoAuthReq Action="Enabled" />
+    <RestartAfterConf Action="Enabled" />
+    <LocalComputer>
+      <TransactionTimeout Value="0" /> <!-- Data type is :int16: -->
+      <DCOMEnabled Value="True | False" />
+      <CISEnabled value="True | False" />
+      <DefaultAuthenticationLevel Value="Default | None | Connect | Call | Packet | Integrity | Privacy" />
+      <DefaultImpersonationLevel Value="Anonymous | Identify | Impersonate | Delegate" />
+      <RestartAfter Action="Enabled | Disabled" />
+    </LocalComputer>
+    <Perms>
+      <Perm RegKey="DefaultAccessPermission | DefaultLaunchPermission | MachineAccessPermission | MachineLaunchRestriction" ACE=":acespec:" />
+    </Perms>
+  </MSDTC>
+  <ComponentServices>
+	<MyComputerProperties>
+		<OptionsTab>
+    			  <TransactionTimeout Value="0" />
+		</OptionsTab>
+		<DefaultPropertiesTab>
+			<DCOMEnabled Value="True" />
+			 <CISEnabled Value="True" />
+			<DefaultAuthenticationLevel Value="Connect" />
+			<DefaultImpersonationLevel Value="Identify" />
+		</DefaultPropertiesTab>
+		<COMSecurityTab>
+       			<Permission RegKey="DefaultAccessPermission" ACE="(A;;CCDCLC;;;DA)(A;;CCDCLC;;;DU)(A;;CCDCLC;;;WD)(A;;CCDCLC;;;PS)(A;;CCDC;;;SY)(A;;CCDCLC;;;BA)" />
+       			<Permission RegKey="DefaultLaunchPermission" ACE="(A;;CCDCLCSWRP;;;DA)(A;;CCDCLCSWRP;;;DU)(A;;CCDC;;;WD)" />
+			<Permission RegKey="MachineAccessRestriction" ACE="(A;;CCDCLC;;;DA)(A;;CCDCLC;;;DU)" />
+			<Permission RegKey="MachineLaunchRestriction" ACE="(A;;LCRP;;;WD)(A;;CCDCLCSWRP;;;DA)(A;;CCDCLCSWRP;;;DU)" />
+		</COMSecurityTab>
+   	 </MyComputerProperties>
+
+	<COMApplications>
+		<Application Name="TalismaApplicationServer" />
+			<ApplicationProperties>
+				<IdentityTab Identity="" Password="@LOOKUP" />
+				<SecurityTab AuthenticationLevel="Call|Connect|Default|None|Packet|PacketIntegrity|PacketPrivacy|Unchanged" >
+				</SecurityTab>
+			</ApplicationProperties>
+	</COMApplications>
+
+	<DCOMConfig>
+		<Application Description="Talisma Information Server" >
+			<IdentityTab Identity="" Password="@LOOKUP" />
+			<SecurityTab>
+				<Permission Type="LaunchAndActivate" Account="" AceFlags="CI" AceType="A" AccessMask="EXECUTE,EXECUTE_LOCAL,EXECUTE_REMOTE,ACTIVATE_LOCAL,ACTIVATE_REMOTE" />
+				<Permission Type="Access" Account="" AceFlags="CI" AceType="A" AccessMask="EXECUTE,EXECUTE_LOCAL,EXECUTE_REMOTE,ACTIVATE_LOCAL,ACTIVATE_REMOTE" />
+				<Permission Type="Configuration" Account="" AceFlags="CI" AceType="A" AccessMask="EXECUTE,EXECUTE_LOCAL,EXECUTE_REMOTE,ACTIVATE_LOCAL,ACTIVATE_REMOTE" />
+			</SecurityTab>
+		</Application>
+	</DCOMConfig>
+
+	<LocalDTCProperties>
+		<SecurityTab>
+			<NetworkDTC Action="Enabled" />
+			<RemoteClients Action="Enabled" />
+			<RemoteAdmin Action="Enabled" />
+			<AllowInboundCom Action="Enabled" />
+   		<AllowOutboundCom Action="Enabled" />
+   		<MutualAuthReq Action="Ignore" />
+   		<IncomingAuthReq Action="Ignore" />
+    	<NoAuthReq Action="Enabled" />
+			<XATransaction Action="Enabled" />
+			<SNALU62Trans Action="Enabled" />
+		</SecurityTab>
+	</LocalDTCProperties>
+	<RestartAfterConf Action="Ignore" />
+  </ComponentServices>
+
+  <ServiceConfig>
+    <Service Name="WAS" StartMode="Automatic" User="" />
+    <Service Name="NetMsmqActivator" StartMode="Automatic" User="True">
+      <Auth User="%_USER_%" Password="%_PASSWORD_%" />
+    </Service>
+    <Service Name="NetPipeActivator" StartMode="Automatic" User=""></Service>
+    <Service Name="NetTcpActivator" StartMode="Automatic" User="" />
+    <Service Name="NetTcpPortSharing" StartMode="Automatic" User="" />
+  </ServiceConfig>
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\MSMQ\Parameters\security" Name="AllowNonauthenticatedRpc" Value="1" type="DWORD" />
+	  <Subkey Action="New" Key="HKLM:\SOFTWARE\Wow6432Node" Name="CMC" />
+    <!--<Subkey Action="" Key="" Name="" Value="" type="" />-->
+  </Reg>
+  <MSMQQueue>
+    <!--<Queue Action="Add" Name="" Public="" Transactional="" Authenticated="" EncryptionReq="" EnableJournal="">
+      <MaxJournalSize />
+      <MaxQueueSize />
+    </Queue>-->
+    <!--<Queue Action="Delete" Name="" Public=""></Queue>-->
+    <Queue Action="Add" Name="prospectnotificationmanager/prospectdncmanager.svc" Public="" Transactional="true" Authenticated="" EncryptionReq="" EnableJournal="true">
+      <MaxJournalSizeKB></MaxJournalSizeKB>
+      <MaxQueueSizeKB />
+      <Permissions>
+        <!--ACE="Allow" | "Set" | "Deny" | "Revoke"-->
+        <!--Right=http://msdn.microsoft.com/en-us/library/system.messaging.messagequeueaccessrights.aspx-->
+        <Perm Queue="" Public="" User="BRIDGEPOINT\dev_svc_msmqAdapter" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\rzaleski" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\svc_msmqAdapter" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\msmith10" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\ProspectEventPublish" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </Queue>
+    <Queue Action="Add" Name="prospectnotificationmanager/prospectemailmanager.svc" Public="" Transactional="true" Authenticated="" EncryptionReq="" EnableJournal="true">
+      <MaxJournalSizeKB></MaxJournalSizeKB>
+      <MaxQueueSizeKB />
+      <Permissions>
+        <!--ACE="Allow" | "Set" | "Deny" | "Revoke"-->
+        <!--Right=http://msdn.microsoft.com/en-us/library/system.messaging.messagequeueaccessrights.aspx-->
+        <Perm Queue="" Public="" User="BRIDGEPOINT\dev_svc_msmqAdapter" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\rzaleski" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\svc_msmqAdapter" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\msmith10" ACE="Allow" Right="FullControl" />
+        <Perm Queue="" Public="" User="BRIDGEPOINT\ProspectEventPublish" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </Queue>
+    <!--<PermAdjust Queue="" Public="" User="" ACE="" Right="" />-->
+    <AllQueues>
+      <Permissions>
+        <Perm User="BRIDGEPOINT\SCM" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </AllQueues>
+  </MSMQQueue>
+  <Volume>
+    <!--Relocate a drive with label "DB" to Z:-->
+    <!--<Part Action="Relocate" Label="DB" CurrentLetter="" NewLetter="Z:" />-->
+    <CDROM Action="MoveFirst" NewLetter="NextAvailable" MoveIf="D:" />
+    <!--Move the D: drive to E: before anything else is done.-->
+    <!--<Part Action="MoveFirst" Label="" CurrentLetter="D:" NewLetter="E:" />-->
+    <!--Relocate the D:\ drive to the next open drive letter-->
+    <!--<Part Action="Relocate" Label="" CurrentLetter="D:" NewLetter="NextAvailable" />-->
+    <!--Relocate the drive with label "Data" to G:-->
+    <!--<Part Action="Relocate" Label="Data" CurrentLetter="" NewLetter="G:" />-->
+    <iSCSI>
+      <!--<Portal Address="10.2.16.31">-->
+      <!--<LUN Action="Add" iQN="iqn.2011-03.org.example.istgt:d1-t2" Persistant="true" Label="DTC" DriveLetter="M:" />-->
+      <!--<LUN Action="Add" iQN="iqn.2011-03.org.example.istgt:d4-t10" Persistant="true" Label="Data" DriveLetter="I:" />-->
+      <!--<LUN Action="Add" iQN="iqn.2011-03.org.example.istgt:d2-t1" Persistant="true" Label="Quorum" DriveLetter="Q:" />-->
+      <!--<LUN Action="Add" iQN="iqn.2011-03.org.example.istgt:d3-t15" Persistant="true" Label="Object" DriveLetter="O:" />-->
+      <!--</Portal>-->
+    </iSCSI>
+    <DirectAttached>
+      <FormatAndPartitionDisks>True</FormatAndPartitionDisks>
+      <Alignment>1024</Alignment>
+      <BlockSize>64k</BlockSize>
+    </DirectAttached>
+  </Volume>
+  <EVLogs>
+    <!--Add new Evt Log file SlyWapp1 + Register event src SlyWapp1 -->
+    <!--<Log Action="Add" LogName="SlyWApp1" EventSource="SlyWApp1" Path="" />-->
+    <!--Add new Evt Log file SlyWApp2 + Register Event Src SlyWapp2. Move physical path of log file to "C:\Temp\Logfiles\SlyWApp2.evtx"  -->
+    <!--<Log Action="Add" LogName="SlyWApp2" EventSource="SlyWApp2" Path="C:\Temp\Logfiles\SlyWApp2.evtx" />-->
+    <!-- Register SlyEvent3 as event source in log file "SlyWApp2". Create "SlyWApp2" if needed."-->
+    <!--<Log Action="Add" LogName="SlyWApp2" EventSource="SlyEvent3" Path="" />-->
+    <!--Move Physical path for "AppLog02" to "C:\Temp\Logfiles\AppLog02.evtx" -->
+    <!--<Log Action="Move" LogName="AppLog02" LogRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\eventlog\AppLog02" Path="C:\Temp\Logfiles\AppLog02.evtx" />-->
+  </EVLogs>
+  <Filesystem>
+    <PermInheritance>
+      <!--<Object Target="C:\Temp\MyFolder" AllowInheritance="True" PreserveInheritance="True" />-->
+      <!--<Object Target="" AllowInheritance="&quot;True | False&quot;" PreserveInheritance="&quot;True | False&quot;" />-->
+    </PermInheritance>
+    <Permissions>
+      <!--<Perm Action="DeleteUser" User="Bridgepoint\svc_userA" Target="D:\Scripts\MyScript.ps1" Right="" Propagation="" Ace="" />-->
+      <!--<Perm Action="Add" User="BRIDGEPOINT\svc_userB" Target="C:\WebForms" Right="CreateFiles" Propagation="None" Ace="Allow" />-->
+      <!--<Perm Action="Add" User="BRIDGEPOINT\svc_userC" Target="C:\WebForms" Right="FullControl" Propagation="InheritOnly" Ace="Deny" />-->
+      <!--<Perm Action="Remove" User="BRIDGEPOINT\svc_userD" Target="D:\MonkeyPictures" Right="ListDirectory" Propagation="NoPropagateInherit" Ace="Allow" />-->
+      <!--<Perm Action="Add | Remove | DeleteUser" User="DOMAIN\User" Target="C:\Files\whatever" Right="ReadData | ListDirectory | WriteData | CreateFiles | AppendData | CreateDirectories | ReadExtendedAttributes | WriteExtendedAttributes | ExecuteFile | Traverse | DeleteSubdirectoriesAndFiles | ReadAttributes | WriteAttributes | Delete | ReadPermissions | ChangePermissions | TakeOwnership | Synchronize | FullControl | Read | ReadAndExecute | Write | Modify" Propagation="None | NoPropagateInherit | InheritOnly" Ace="Allow | Deny" />-->
+      <!--<Perm Action="" User="" Target="" Right="" Propagation="" Ace="" />-->
+    </Permissions>
+    <Folders>
+      <!--<Item Action="Add" Path="C:\Path\to\Folder" />-->
+      <!--<Item Action="Delete" Path="C:\Path\to\Folder" />-->
+    </Folders>
+  </Filesystem>
+  <RemoveFile>
+    <!--
+	  RemoveFile / File Path: Path to the directory to clean files
+	  RemoveFile / DateTime: The string representing the DateTime object of files to be removed
+	  RemoveFile / DeletePathIfEmpty: remove the main path if completely empty of files post cleanup
+	  RemoveFile / Criteria: CreatedBefore | NotModifiedAfter. CreatedBefore - remove all files in the given Path that were created before the given date. NotModifiedAfter - remove all files in the given Path that have not been modified after the given date
+    -->
+	  <!-- delete all files within C:\path that were created before today -->
+	  <File Path="c:\path\" DateTime="(Get-Date)" DeletePathIfEmpty="False" Criteria="CreatedBefore" />
+	  <!-- delete all files within C:\another\path that are older than 365 days -->
+    <File Path="C:\another\path" DateTime="((Get-Date).AddDays(-365)) " DeletePathIfEmpty="False" Criteria="CreatedBefore" />
+  </RemoveFile>
+ <AppConfig>
+    <Octopus>
+      <Config Action="Add" AgentFolder="c:\Octopus Tentacle\agent" AppDir="C:\Octopus\Applications" Port="10933" TrustKey="8343CEC45768BC365ED632A73CB2E99328637EC3" TempCertDir="C:\temp" />
+    </Octopus>
+  </AppConfig>
+  <WindowsFirewall>
+    <!--<Form State="Enable | Disable" Profile="allprofiles | currentprofile | domainprofile | global | privateprofile | publicprofile" />-->
+  </WindowsFirewall>
+  <SpecialConf>
+    <SolrSpecial>
+      <MasterSlave>Master</MasterSlave>
+      <!--<MasterSlave>Slave</MasterSlave>-->
+    </SolrSpecial>
+    <ConstellationSpecial>
+      <VMDDUpdate>True</VMDDUpdate>
+    </ConstellationSpecial>
+  </SpecialConf>
+  <FailoverClustering>
+    <!--<Cluster Name="Dev-SlyClus3a" ClusterIP="10.2.16.34">-->
+    <Nodes>
+      <!--<Node Action="Add" NodeName="Dev-SlyClus6" />-->
+      <!--<Node Action="Join" NodeName="Dev-SlyClus7" />-->
+      <!--<Node Action="Join" NodeName="Dev-SlyClus8" />-->
+    </Nodes>
+    <Disks>
+      <!--<Disk Name="Quorum" DriveLetter="Q:" />-->
+      <!--<Disk Name="MsgQueue" DriveLetter="I:" />-->
+      <!--<Disk Name="DTC" DriveLetter="M:" />-->
+      <!--<Disk Name="Object" DriveLetter="O:" />-->
+    </Disks>
+    <!--</Cluster>-->
+  </FailoverClustering>
+  <MSSQL>
+    <Install>
+      <ININame>DeveloperEdition.ini</ININame>
+      <EXEName>setup.exe</EXEName>
+      <Argument>/Q</Argument>
+      <Argument>/SQLSVCPASSWORD="*******"</Argument>
+      <Argument>/PID="ABCD-12345-EFGHI-12345-ABCD"</Argument>
+      <Argument>/AGTSVCPASSWORD="*******"</Argument>
+      <Argument>/SAPWD="**********"</Argument>
+      <LocalFolderName>DeveloperEdition</LocalFolderName>
+    </Install>
+    <Validate>
+      <ReqdPatchLevel>3128</ReqdPatchLevel>
+    </Validate>
+    <Management>
+      <SMO Name="SQL-AlwaysOn" Action="enable" Path="SQLSERVER:\SQL\@@@sql_instance_name@@@\DEFAULT" />
+    </Management>
+    <PostInstall>
+      <Script Cmd="sqlcmd -U sa -P @@@SAPWD@@@ -i " Path="/tmp/StandupScripts/@@@SQLEnv@@@/*.sql" />
+      <Script Cmd="sqlcmd -U sa -P @@@SAPWD@@@ -i " Path="/tmp/SQLServer/@@@SQLEnv@@@/*.sql" />
+    </PostInstall>
+  </MSSQL>
+
+  <UserAccounts>
+    <UserAction Action="AddToGroup" User="bridgepoint\svc_cvu_acct" Group="Backup Operators" />
+  </UserAccounts>
+  <!-- For the following TextFileOps elements, if you are editing a Markup Language document (HTML, XML, etc.) you need to encode the strings so that
+  they are not interpretted by the STIG-ServerStandup.ps1 as markup tags in this document. Use the site http://xml-encoding.online-domain-tools.com/ to
+  encode your strings before placing them in this file. -->
+  <SearchAndReplace FilePath="h:\" FileFilter="tal_IIS_Orig.txt"  FindPattern="preCondition=&quot;managedHandler,runtimeVersion2.0&quot;" >
+    <Item ReplaceText="&quot;preCondition=&quot;managedHandler&quot;" />
+  </SearchAndReplace>
+  <SearchAndReplace FilePath="h:\" FileFilter="tal_IIS_Orig.txt"  FindPattern="(&lt;add fileExtension=&quot;.rules&quot; allowed=&quot;false&quot; /&gt;)" >
+    <Item ReplaceText="" />
+  </SearchAndReplace>
+  <TextInsert StartString="&lt;handlers accessPolicy=&quot;Read, Script&quot;&gt;" IncludeStartString="True" SourceFile="h:\insert1.txt" EndString="&lt;/handlers&gt;" IncludeEndString="true" TargetFile="h:\tal_IIS_orig.txt" />
+  <TextInsert StartString="&lt;advancedLogging&gt;" IncludeStartString="True" SourceFile="h:\insert2.txt" EndString="&lt;/advancedLogging&gt;" IncludeEndString="true" TargetFile="h:\tal_IIS_orig.txt" />
+  <TextInsert StartString="&lt;logFile logFormat=&quot;W3C&quot; directory=" IncludeStartString="True" SourceFile="h:\insert3.txt" TargetFile="h:\tal_IIS_orig.txt" />
+  <!--
+	Execute Microsoft Desired State Configuration MOF file (Powershell 4.0 or later)
+	DSC / MOF: The path to the MOF (Managed Object Format) file that DSC will execute
+  -->
+  <!-- execute the "HelloWorldConfig" MOF file - end state will be c:\temp\HelloWorld.txt -->
+	<DSC Path="\\10.13.0.206\scratch\DML\Microsoft\Powershell\MOF\HelloWorldConfig\localhost.mof" />
+  <Pagefile>
+    <Config DriveLetter="C:,D:" InitialSizeMB="1024" MaximumSizeMB="4096" />
+    <Config DriveLetter="D:" NoPagefile="True" />
+    <Config DriveLetter="C:" AutoConfigure="True" />
+    <Config DriveLetter="C:" SystemManagedSize="True" />
+  </Pagefile>
+
+</params>

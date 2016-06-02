@@ -1,0 +1,81 @@
+        <advancedLogging>
+            <server enabled="true">
+                <fields>
+                    <field id="Date-UTC" sourceName="Date-UTC" sourceType="BuiltIn" logHeaderName="date" category="Default" loggingDataType="TypeDate" />
+                    <field id="Time-UTC" sourceName="Time-UTC" sourceType="BuiltIn" logHeaderName="time" category="Default" loggingDataType="TypeTime" />
+                    <field id="Date-Local" sourceName="Date-Local" sourceType="BuiltIn" logHeaderName="date-local" category="Default" loggingDataType="TypeDate" />
+                    <field id="Time-Local" sourceName="Time-Local" sourceType="BuiltIn" logHeaderName="time-local" category="Default" loggingDataType="TypeTime" />
+                    <field id="CPU-Utilization" sourceName="\Processor(_Total)\% Processor Time" sourceType="PerfCounter" logHeaderName="CPU-Utilization" category="Default" loggingDataType="TypeFloat64" perfCounterType="Other" />
+                    <field id="W3WP-PrivateBytes" sourceName="\Process(w3wp)\Private Bytes" sourceType="PerfCounter" logHeaderName="W3WP-PrivateBytes" category="Default" loggingDataType="TypeUInt64" perfCounterType="Other" />
+                    <field id="RequestsPerSecond" sourceName="\W3SVC_W3WP(_Total)\Requests / Sec" sourceType="PerfCounter" logHeaderName="RequestsPerSecond" category="Default" loggingDataType="TypeFloat64" perfCounterType="Rate" />
+                    <field id="URI-Stem" sourceName="URI-Stem" sourceType="BuiltIn" logHeaderName="cs-uri-stem" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="Server-IP" sourceName="Server-IP" sourceType="BuiltIn" logHeaderName="s-ip" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="Status" sourceName="Status" sourceType="BuiltIn" logHeaderName="sc-status" category="Default" loggingDataType="TypeSInt16" />
+                    <field id="Substatus" sourceName="Substatus" sourceType="BuiltIn" logHeaderName="sc-substatus" category="Default" loggingDataType="TypeSInt16" />
+                    <field id="Bytes Sent" sourceName="BytesSent" sourceType="Module" logHeaderName="sc-bytes" category="Default" loggingDataType="TypeUInt32" />
+                    <field id="Method" sourceName="Method" sourceType="BuiltIn" logHeaderName="cs-method" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="URI-Querystring" sourceName="URI-Querystring" sourceType="BuiltIn" logHeaderName="cs-uri-query" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="Client-IP" sourceName="Client-IP" sourceType="BuiltIn" logHeaderName="c-ip" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="Protocol" sourceName="Protocol" sourceType="BuiltIn" logHeaderName="c-protocol" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="Proxy" sourceName="Via" sourceType="RequestHeader" logHeaderName="s-proxy" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="UserName" sourceName="UserName" sourceType="RequestHeader" logHeaderName="cs-username" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="ContentPath" sourceName="ContentPath" sourceType="BuiltIn" logHeaderName="s-contentpath" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="Host" sourceName="Host" sourceType="RequestHeader" logHeaderName="cs(Host)" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="BeginRequest-UTC" sourceName="BeginRequest-UTC" sourceType="Module" logHeaderName="BeginRequest-UTC" category="Default" loggingDataType="TypeDateTime" />
+                    <field id="EndRequest-UTC" sourceName="EndRequest-UTC" sourceType="Module" logHeaderName="EndRequest-UTC" category="Default" loggingDataType="TypeDateTime" />
+                    <field id="Time Taken" sourceName="Time-Taken" sourceType="BuiltIn" logHeaderName="TimeTakenMS" category="Default" loggingDataType="TypeUInt32" />
+                    <field id="Site Name" sourceName="SiteName" sourceType="BuiltIn" logHeaderName="s-sitename" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="User Agent" sourceName="User-Agent" sourceType="RequestHeader" logHeaderName="cs(User-Agent)" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="Referer" sourceName="Referer" sourceType="RequestHeader" logHeaderName="cs(Referer)" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="Win32Status" sourceName="Win32Status" sourceType="BuiltIn" logHeaderName="sc-win32-status" category="Default" loggingDataType="TypeSInt32" />
+                    <field id="Bytes Received" sourceName="BytesReceived" sourceType="Module" logHeaderName="cs-bytes" category="Default" loggingDataType="TypeUInt32" />
+                    <field id="Protocol Version" sourceName="ProtocolVersion" sourceType="BuiltIn" logHeaderName="cs-version" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="Cookie" sourceName="Cookie" sourceType="RequestHeader" logHeaderName="cs(Cookie)" category="Default" loggingDataType="TypeLPCWSTR" />
+                    <field id="Server Name" sourceName="ServerName" sourceType="BuiltIn" logHeaderName="s-computername" category="Default" loggingDataType="TypeLPCSTR" />
+                    <field id="Server Port" sourceName="ServerPort" sourceType="BuiltIn" logHeaderName="s-port" category="Default" loggingDataType="TypeUInt16" />
+                    <field id="X-Forwarded-For" sourceName="X-Forwarded-For" sourceType="RequestHeader" logHeaderName="X-Forwarded-For" category="Default" loggingDataType="TypeLPCSTR" />
+                </fields>
+                <logDefinitions>
+                    <logDefinition baseFileName="%COMPUTERNAME%-Server" enabled="false">
+                        <selectedFields>
+                            <logField id="Date-UTC" />
+                            <logField id="Time-UTC" />
+                            <logField id="URI-Stem" />
+                            <logField id="URI-Querystring" />
+                            <logField id="ContentPath" />
+                            <logField id="Status" />
+                            <logField id="Server Name" />
+                            <logField id="Referer" />
+                            <logField id="Win32Status" />
+                            <logField id="Bytes Sent" />
+                            <logField id="Bytes Received" />
+                        </selectedFields>
+                    </logDefinition>
+                    <logDefinition rollLogFileOnConfigChanges="false" writeLogDataToDisk="true" baseFileName="%COMPUTERNAME%-Server - XFF" logRaiseTraceEvents="false" enabled="true" logRollOption="Schedule" maxDurationSeconds="86400" maxFileSizeKB="1024" schedule="Hourly" publishLogEvent="false">
+                        <selectedFields>
+                            <logField id="Date-UTC" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="Time-UTC" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="URI-Stem" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="URI-Querystring" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="Status" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="Win32Status" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="Bytes Sent" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="Bytes Received" logHeaderName="" required="false" defaultValue="" />
+                            <logField id="X-Forwarded-For" logHeaderName="X-Forwarded-For" required="false" defaultValue="" />
+                            <logField id="UserName" logHeaderName="cs-username" required="false" defaultValue="" />
+                            <logField id="User Agent" logHeaderName="cs(User-Agent)" required="false" defaultValue="" />
+                            <logField id="Time Taken" logHeaderName="TimeTakenMS" required="false" defaultValue="" />
+                            <logField id="Substatus" logHeaderName="sc-substatus" required="false" defaultValue="" />
+                            <logField id="Server-IP" logHeaderName="s-ip" required="false" defaultValue="" />
+                            <logField id="Server Port" logHeaderName="s-port" required="false" defaultValue="" />
+                            <logField id="Method" logHeaderName="cs-method" required="false" defaultValue="" />
+                            <logField id="Client-IP" logHeaderName="c-ip" required="false" defaultValue="" />
+                        </selectedFields>
+                        <filter>
+                            <condition operator="And" />
+                        </filter>
+                    </logDefinition>
+                </logDefinitions>
+            </server>
+            <client enabled="false" />
+        </advancedLogging>

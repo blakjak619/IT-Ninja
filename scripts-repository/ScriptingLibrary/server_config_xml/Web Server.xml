@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <Bindependency>
+    <ServerBinRoot Name="\\10.13.0.206\scratch" />
+    <File Name="dotNetFx40_Full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.0\dotNetFx40_Full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+    <File Name="dotnetfx45_full_x86_x64.exe" PathFromBinRoot="DML\Microsoft\DotNet_Framework\v4.5\dotnetfx45_full_x86_x64.exe" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/norestart</Argument>
+    </File>
+    <File Name="WebDeploy_2_10_amd64_en-US.msi" PathFromBinRoot="DML\Microsoft\Webdeploy\V2.0\WebDeploy_2_10_amd64_en-US.msi" Action="Add">
+      <Argument>/q</Argument>
+      <Argument>/l WebDeployInstallLog.txt</Argument>
+      <Argument>/Package %:PACKAGELOCALPATH%</Argument>
+      <Argument>ADDLOCAL=MSDeployFeature,MSDeployAgentFeature,MSDeployUIFeature,DelegationUIFeature,MSDeployShortcuts,MSDeployWMSVCHandlerFeature</Argument>
+    </File>
+    <!-- Are we installing a self signed cert? -->
+    <File Name="makecert.exe" PathFromBinRoot="DML\Microsoft\SDK\Makecert 6.2\makecert.exe" Action="Add"></File>
+  </Bindependency>
+  <ServerManager>
+    <includeallSubFeature>
+      <feature>web-WebServer</feature>
+      <feature>Web-Mgmt-Tools</feature>
+      <feature>NET-Framework</feature>
+      <feature>MSMQ</feature>
+      <feature>WAS</feature>
+    </includeallSubFeature>
+  </ServerManager>
+  <IIS>
+    <WWWROOT>D:\WWWROOT</WWWROOT>
+    <RegDOTNETIIS>True</RegDOTNETIIS>
+    <CreateFolderStr>
+      <DIR>LeadManagement</DIR>
+      <DIR>ProspectService</DIR>
+      <DIR>ExternalServices</DIR>
+    </CreateFolderStr>
+    <SSL>
+      <Cert Action="Add" Name="ProspectCertificate" />
+    </SSL>
+    <Websites>
+      <Site Action="Add" SiteName="InternalServices" PhysPath="LeadManagement" AppPool="ASP.NET v4.0" SSL="" SSLIP="" SSLPort="4433" SSLCERTName="ProspectCertificate">
+        <Binding action="Add" type="http" address="*" port="8080" hostname="" />
+        <Binding action="Add" type="https" address="*" port="4433" hostname="" />
+        <Binding action="Add" type="net.msmq" address="" port="" hostname="" BindingInfo="mq-msmq1d" />
+        <Binding action="Add" type="msmq.formatname" address="" port="" hostname="" BindingInfo="mq-msmq1d" />
+        <Binding action="Add" type="net.pipe" address="" port="" hostname="" BindingInfo="*" />
+        <Binding action="Add" type="net.tcp" address="" port="" hostname="" BindingInfo="808:*" />
+      </Site>
+<Site Action="Add" SiteName="ExternalServices" PhysPath="ExternalServices" AppPool="ASP.NET v4.0" SSL="" SSLIP="" SSLPort="443" SSLCERTName="ProspectCertificate">
+        <Binding action="Add" type="http" address="*" port="80" hostname="" />
+        <Binding action="Add" type="https" address="*" port="443" hostname="" />
+      </Site>
+<Site Action="Add" SiteName="ProspectService" PhysPath="ProspectService" AppPool="ASP.NET v4.0" SSL="" SSLIP="" SSLPort="" SSLCERTName="">
+        <Binding action="Add" type="http" address="*" port="81" hostname="" />
+      </Site>
+    </Websites>
+  </IIS>
+  <MSDTC>
+    <NetworkDTC Action="Enabled" />
+    <XATransaction Action="Enabled" />
+    <SNALU62Trans Action="Enabled" />
+    <RemoteClients Action="Enabled" />
+    <RemoteAdmin Action="Enabled" />
+    <AllowInboundCom Action="Enabled" />
+    <AllowOutboundCom Action="Enabled" />
+    <MutualAuthReq Action="Ignore" />
+    <IncomingAuthReq Action="Ignore" />
+    <NoAuthReq Action="Enabled" />
+    <RestartAfterConf Action="Enabled" />
+  </MSDTC>
+  <ServiceConfig>
+    <Service Name="WAS" StartMode="Automatic" User="" />
+    <Service Name="MSMQ" StartMode="Automatic" User="" />
+    <Service Name="MSDTC" StartMode="Automatic" User="" />
+    <Service Name="NetMsmqActivator" StartMode="Automatic" User="True">
+      <Auth User="%_USER_%" Password="%_PASSWORD_%" />
+    </Service>
+    <Service Name="NetPipeActivator" StartMode="Automatic" User=""></Service>
+    <Service Name="NetTcpActivator" StartMode="Automatic" User="" />
+    <Service Name="NetTcpPortSharing" StartMode="Automatic" User="" />
+  </ServiceConfig>
+  <Reg>
+    <Subkey Action="Add" Key="HKLM:\SOFTWARE\Microsoft\MSMQ\Parameters\security" Name="AllowNonauthenticatedRpc" Value="1" type="DWORD" />
+    <Subkey Action="Add" Key="HKLM:\System\CurrentControlSet\services\NetMsmqActivator" Name="ServiceSidType" Value="1" type="DWORD" />
+  </Reg>
+</params>

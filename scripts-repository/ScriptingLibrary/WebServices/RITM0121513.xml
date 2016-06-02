@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RITM0121513: This file is intended to set permissions required for SCOM access on the legacy SOA application servers 
+Note: this is not required for SOA TNG servers -->
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+    <MSMQQueue>
+    <AllQueues>
+      <Permissions>
+        <Perm User="@@@msmqSecurityGroup@@@" ACE="Allow" Right="FullControl" />
+      </Permissions>
+    </AllQueues>
+  </MSMQQueue> 
+
+</params>

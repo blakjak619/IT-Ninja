@@ -1,0 +1,16 @@
+<params Version="1.9">
+  <Folders>
+    <!--Leave the folder alone. Also, Dont remove it from any version of this file-->
+    <Includes>Includes</Includes>
+    <Temp>tmp</Temp>
+  </Folders>
+  <MSMQQueue>
+    <!-- msmq queue manager perms: http://technet.microsoft.com/en-us/library/dn391737.aspx -->
+    <System>
+	  <Permissions>
+		<Perm User="bridgepoint\DEV_MSMQ_FULL_SG" ACE="Remove" Right="ReceiveDeadLetter" />
+		<Perm User="bridgepoint\DEV_MSMQ_FULL_SG" ACE="Remove" Right="PeekDeadLetter" />
+	  </Permissions>
+    </System>
+  </MSMQQueue>
+</params>

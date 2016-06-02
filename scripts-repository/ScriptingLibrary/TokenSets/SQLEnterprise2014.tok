@@ -1,0 +1,12 @@
+AddlFeatures =
+AgentStartup = Automatic
+AGTSVCACCOUNT = BRIDGEPOINT\\sql_agent
+AGTSVCPASSWORD = $qlBeta02
+SAPWD = OwSZHWEIC5rIle6tZLKi!
+SQL_EDITION = EnterpriseEdition2014
+SQLServerStartMode = Delayed-Auto
+SQLServiceStartup = Automatic
+SQLSVCACCOUNT = BRIDGEPOINT\\sql_server
+SQLSVCPASSWORD = $qlAlpha01
+ISSVCACCOUNT = NT Service\\MsDtsServer120
+sqlcommandpath = D:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\120\\Tools\\Binn
