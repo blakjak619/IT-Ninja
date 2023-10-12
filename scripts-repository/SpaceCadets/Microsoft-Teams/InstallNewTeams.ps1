@@ -4,7 +4,7 @@ function Get-TimeStamp {
 }
 
 # Define the log file location and download location
-$LogDirectory = "C:\ProgramData\Intune\Scripts"
+$LogDirectory = "C:\windows\temp\MEM\Scripts"
 $LogFile = Join-Path -Path $LogDirectory -ChildPath "TeamsDeployment.log"
 $DownloadPath = "C:\Temp\MicrosoftTeams"
 
@@ -145,7 +145,7 @@ if ((Test-Path "$DownloadPath\$OutFileName") -eq $false) {
 }
 if ($success) {
     # Create a success file in the specified directory
-    $successFilePath = Join-Path "C:\ProgramData\Intune\Scripts" "TeamsDeployment.txt"
+    $successFilePath = Join-Path "C:\windows\temp\MEM\Scripts" "TeamsDeployment.txt"
     "MS Teams installation was successful." | Out-File -FilePath $successFilePath
     LogWrite "Successfully created the success file: $successFilePath" "success"
 
